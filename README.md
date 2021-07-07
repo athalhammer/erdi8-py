@@ -40,3 +40,7 @@ _Because we want to avoid "number-only" identifiers. If we allowed to start with
 __How about combinations that form actual (bad) words?__
 
 _This depends on the use case and the way erdi8 is used. Therefore, we can only recommend to work with filter lists, Web service calls, etc._
+
+__How does this relate to binary-to-text encodings such as base32 and base64?__
+
+_erdi8 can be used for a binary-to-text encoding and the basic functions to implement this are provided with `erdi8.encode_int` and `erdi8.decode_int`. However, the primary purpose is to provide a short counting scheme for identifiers._
