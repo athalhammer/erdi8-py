@@ -51,7 +51,7 @@ def check(string):
     return flag
 
 
-def increment(current, alph=ALPH):
+def increment(current):
     if not check(current):
         return None
     if not current:
@@ -65,7 +65,7 @@ def increment(current, alph=ALPH):
         return current + ALPH[pos]
 
 
-def encode_int(dec, alph=ALPH):
+def encode_int(dec):
     div = dec // LEN
     mod = dec % LEN
     if mod + OFFSET > LEN - 1:
@@ -76,7 +76,7 @@ def encode_int(dec, alph=ALPH):
         return ALPH[(mod + OFFSET) % LEN]
 
 
-def decode_int(e8, alph=ALPH):
+def decode_int(e8):
     if not check(e8):
         return None
     result = 0
