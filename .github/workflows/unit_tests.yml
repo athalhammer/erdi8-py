@@ -36,4 +36,6 @@ jobs:
       - name: Runs unit tests
         run: |
           ls -al
-          python3 -m unittest test.erdi8_test
+          python -m pip install --upgrade pip
+          pip install unittest
+          python -m unittest test/erdi8_test.py
