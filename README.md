@@ -14,12 +14,12 @@ It is basically a base36 alphabet that intentionally avoids the ambigous charact
 ```
 $ python3
 
->>> import erdi8 as e8
->>> e8.increment("erdi8")
+>>> import erdi8
+>>> erdi8.increment("erdi8")
 'erdi9'
->>> e8.decode_int("erdi8")
+>>> erdi8.decode_int("erdi8")
 6545185
->>> e8.encode_int(6545185)
+>>> erdi8.encode_int(6545185)
 'erdi8'
 ```
 
