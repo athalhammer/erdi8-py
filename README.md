@@ -1,3 +1,5 @@
+![example workflow](https://github.com/athalhammer/erdi8/actions/workflows/unit_tests.yml/badge.svg)
+
 # erdi8
 
 erdi8 is a [unique identifier](https://www.wikidata.org/wiki/Q6545185) scheme and generator that operates on the following alphabet:
