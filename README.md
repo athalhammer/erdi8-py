@@ -14,12 +14,13 @@ It is basically a base36 alphabet that intentionally avoids the ambigous charact
 ```
 $ python3
 
->>> import erdi8
->>> erdi8.increment("erdi8")
+>>> from erdi8 import Erdi8
+>>> e8 = Erdi8()
+>>> e8.increment("erdi8")
 'erdi9'
->>> erdi8.decode_int("erdi8")
+>>> e8.decode_int("erdi8")
 6545185
->>> erdi8.encode_int(6545185)
+>>> e8.encode_int(6545185)
 'erdi8'
 ```
 
@@ -45,8 +46,8 @@ _Because we want to avoid "number-only" identifiers. If we allowed to start with
 
 __How about combinations that form actual (bad) words?__
 
-_This depends on the use case and the way erdi8 is used. Therefore, we can only recommend to work with filter lists, Web service calls, etc._
+_This depends on the use case and the way erdi8 is used. Therefore, we can recommend to work with filter lists. In addition an erdi8 object that avoids the `aeiou` characters can be created with `Erdi8(safe=True)`. This shrinks the available character space to 28 and the produced output is not compatible to `Erdi8(safe=False)` (default). However, the danger that unintended English words are created is lower._
 
 __How does this relate to binary-to-text encodings such as base32 and base64?__
 
-_erdi8 can be used for a binary-to-text encoding and the basic functions to implement this are provided with `erdi8.encode_int` and `erdi8.decode_int`. However, the primary purpose is to provide a short counting scheme for identifiers._
+_erdi8 can be used for a binary-to-text encoding and the basic functions to implement this are provided with `encode_int` and `decode_int`. However, the primary purpose is to provide a short counting scheme for identifiers._
