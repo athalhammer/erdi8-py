@@ -34,4 +34,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Runs unit tests
-        run: python -m unittest discover -p '*test.py'
+        run: |
+          mv test/erdi8_test.py .
+          python -m unittest erdi8_test
+
