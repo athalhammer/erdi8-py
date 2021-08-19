@@ -1,4 +1,5 @@
 ![example workflow](https://github.com/athalhammer/erdi8/actions/workflows/unit_tests.yml/badge.svg)
+[![GitHub license](https://img.shields.io/github/license/athalhammer/erdi8.svg)](https://github.com/athalhammer/erdi8/blob/master/LICENSE)
 
 # erdi8
 
