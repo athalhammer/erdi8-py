@@ -35,7 +35,7 @@ $ python3 -m unittest test/erdi8_test.py
 
 ## Intended use
 
-When you run an identifier redirect service of the type `https://id.example.org/` your users can reserve "their space" for their current business application and or domain. We encourage the administrator of such a service to offer opaque folder names for long-term identifier stability. These folder names can be chosen to follow the erdi8 scheme and offer 825 (25 * 33) potential two-character folder names. In addition, also subfolder names and local accession identifiers can be generated with this scheme such that FAIR data objects can be identified with URIs of the type `https://id.example.org/b7/a/erdi8`.
+When you run an identifier redirect service of the type `https://purl.example.org/` your users can reserve "their space" for their current business application and or domain. We encourage the administrator of such a service to offer opaque folder names for long-term identifier stability. These folder names can be chosen to follow the erdi8 scheme and offer 825 (25 * 33) potential two-character folder names. In addition, also subfolder names and local accession identifiers can be generated with this scheme such that FAIR data objects can be identified with URIs of the type `https://purl.example.org/b7/a/erdi8`.
 
 ## FAQ
 
