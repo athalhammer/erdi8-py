@@ -49,7 +49,7 @@ _Because we want to avoid "number-only" identifiers. If we allowed to start with
 
 __How about combinations that form actual (bad) words?__
 
-_This depends on the use case and the way erdi8 is used. Therefore, we can recommend to work with filter lists. In addition an erdi8 object that avoids the `aeiou` characters can be created with `Erdi8(safe=True)`. This shrinks the available character space to 28 and the produced output is not compatible to `Erdi8(safe=False)` (default). However, the danger that unintended English words are created is lower._
+_This depends on the use case and the way erdi8 is used. Therefore, we can recommend to work with filter lists. In addition an erdi8 object that avoids the `aeiou` characters can be created with `Erdi8(safe=True)`. This shrinks the available character space to 28 and the produced output is not compatible to `Erdi8(safe=False)` (default). The danger that unintended English words are created is lower with this setting.  It is recommended for erdi8 identifiers that are longer than three characters where filter lists start to become impractical._
 
 __How does this relate to binary-to-text encodings such as base32 and base64?__
 
