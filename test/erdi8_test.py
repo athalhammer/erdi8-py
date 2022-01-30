@@ -1,8 +1,8 @@
 import unittest
 from erdi8 import Erdi8
 
-class E8Test(unittest.TestCase):
 
+class E8Test(unittest.TestCase):
     def test_inc_enc_dec(self):
         e8 = Erdi8()
         a = "a"
@@ -14,15 +14,31 @@ class E8Test(unittest.TestCase):
             a = e8.increment(a)
         self.assertEqual(a, "ifa")
 
+    def test_inc_fancy_safe(self):
+        e8 = Erdi8(safe=True)
+        current = "rd8"
+        target_len = 20 * 28 * 28
+        col_set = set()
+
+        # do the full tour
+        for i in range(0, target_len):
+            col_set.add(current)
+            current = e8.increment_fancy(current, 12345)
+        self.assertEqual(len(col_set), target_len)
+        self.assertEqual(current, "rd8")
+
     def test_inc_fancy(self):
         e8 = Erdi8()
         current = "erd"
         target_len = 25 * 33 * 33
         col_set = set()
+
+        # do the full tour
         for i in range(0, target_len):
             col_set.add(current)
             current = e8.increment_fancy(current, 12345)
         self.assertEqual(len(col_set), target_len)
+        self.assertEqual(current, "erd")
 
     def test_string_check(self):
         e8 = Erdi8()
@@ -32,7 +48,7 @@ class E8Test(unittest.TestCase):
         self.assertFalse(e8.check("ab1"))
 
     def test_safe(self):
-        e8 = Erdi8(safe = True)
+        e8 = Erdi8(safe=True)
         self.assertFalse(e8.check("b23a"))
         self.assertFalse(e8.check("b2e3"))
         self.assertFalse(e8.check("bi23"))
