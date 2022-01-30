@@ -13,9 +13,8 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+import math
 import sys
-
 
 class Erdi8:
     # A value of 8 avoids that the first character of the identifier is a number
@@ -67,6 +66,15 @@ class Erdi8:
             return self.increment(current) + self.alph[pos % self.alph_len]
         else:
             return current + self.alph[pos]
+
+    def increment_fancy(self, current, seed):
+        length = len(current)
+        mini = self.decode_int('z' * (length - 1)) + 1
+        maxi = self.decode_int('z' * length)
+        space = maxi - mini + 1
+        while math.gcd(mini + seed, space) != 1:
+            seed = seed + 1
+        return self.encode_int(mini + ((self.decode_int(current) + seed) % space))
 
     def encode_int(self, dec):
         div = dec // self.alph_len
