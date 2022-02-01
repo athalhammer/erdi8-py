@@ -15,6 +15,8 @@ It is basically a base36 alphabet that intentionally avoids the ambigous charact
 
 ## Usage
 
+
+### Basic
 ```
 $ python3
 
@@ -27,6 +29,32 @@ $ python3
 >>> e8.encode_int(6545185)
 'erdi8'
 ```
+
+### Advanced
+Fixed length "fancy" identifiers with `safe=True` 
+
+```
+$ python3
+
+>>> safe = True
+>>> start = 'b222222222'
+>>> seed = 453459956896834
+>>> e8 = Erdi8(safe)
+>>> e8.increment_fancy('b222222222', seed)
+'fmzz7cwc43'
+>>> current = e8.increment_fancy('fmzz7cwc43', seed)
+>>> print(current)
+k7zydqrp64
+```
+
+---
+**NOTE**
+
+0. These sequences may have a fancy appearance but __they are not random__!
+1. The `safe=True` option helps you to avoid unintended words (i.e. removes the characters `[aeiou]` from the alphabet)
+2. The fancy increment works with fixed lengths. If you work with a length of 10 (like above) You will have `20 * 28^9 = 211'569'119'068'160` options with `safe=True`. If you think you have more things to identify at some point you have two options: a) start directly with more characters or b) check for the start value (in this case `b222222222`) to reappear - this will be the identifier that will "show up twice" first.
+3. Store the following four parts in a safe place: a) `safe` parameter b) the `start` value c) the `seed` value. On top, keep good track of the `current` value.
+---
 
 ## Test cases
 
