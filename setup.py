@@ -9,7 +9,7 @@ setup(
     url='https://github.com/athalhammer/erdi8',
     author='Andreas Thalhammer',
     author_email='andreas@thalhammer.bayern',
-    description='Count according to lower case alphabet and numbers (without ambigous 0, 1, and l)',
+    description='Count according to lower case alphabet and numbers (without ambiguous 0, 1, and l)',
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=['erdi8'],
