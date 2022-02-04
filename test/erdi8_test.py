@@ -1,4 +1,5 @@
 import unittest
+import random
 from erdi8 import Erdi8
 
 
@@ -19,11 +20,11 @@ class E8Test(unittest.TestCase):
         current = "rd8"
         target_len = 20 * 28 * 28
         col_set = set()
-
+        seed = random.randint(0, 100000000000000000000000)
         # do the full tour
         for i in range(0, target_len):
             col_set.add(current)
-            current = e8.increment_fancy(current, 12345)
+            current = e8.increment_fancy(current, seed)
         self.assertEqual(len(col_set), target_len)
         self.assertEqual(current, "rd8")
 
@@ -32,11 +33,12 @@ class E8Test(unittest.TestCase):
         current = "erd"
         target_len = 25 * 33 * 33
         col_set = set()
+        seed = random.randint(0, 100000000000000000000000)
 
         # do the full tour
         for i in range(0, target_len):
             col_set.add(current)
-            current = e8.increment_fancy(current, 12345)
+            current = e8.increment_fancy(current, seed)
         self.assertEqual(len(col_set), target_len)
         self.assertEqual(current, "erd")
 
