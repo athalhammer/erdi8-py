@@ -40,7 +40,7 @@ $ python3
 >>> start = 'b222222222'
 >>> seed = 453459956896834
 >>> e8 = Erdi8(safe)
->>> e8.increment_fancy('b222222222', seed)
+>>> e8.increment_fancy(start, seed)
 'fmzz7cwc43'
 >>> current = e8.increment_fancy('fmzz7cwc43', seed)
 >>> print(current)
