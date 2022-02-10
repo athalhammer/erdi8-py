@@ -36,6 +36,7 @@ Fixed length "fancy" identifiers with `safe=True`
 ```
 $ python3
 
+>>> from erdi8 import Erdi8
 >>> safe = True
 >>> start = 'b222222222'
 >>> seed = 453459956896834
