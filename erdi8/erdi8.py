@@ -68,6 +68,8 @@ class Erdi8:
             return current + self.alph[pos]
 
     def increment_fancy(self, current, seed):
+        if not self.check(current):
+            return None
         length = len(current)
         mini = self.decode_int('z' * (length - 1)) + 1
         maxi = self.decode_int('z' * length)
