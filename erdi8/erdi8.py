@@ -78,15 +78,22 @@ class Erdi8:
             seed = seed + 1
         return self.encode_int(mini + ((self.decode_int(current) + seed) % space))
 
-    def encode_int(self, dec):
-        div = dec // self.alph_len
-        mod = dec % self.alph_len
+    def encode_int(self, div):
+        result = ""
+        mod = div % self.alph_len
+        div = div // self.alph_len
         if mod + self.OFFSET > self.alph_len - 1:
             div = div + 1
-        if div >= 1:
-            return self.encode_int(div - 1) + self.alph[(mod + self.OFFSET) % self.alph_len]
-        else:
-            return self.alph[(mod + self.OFFSET) % self.alph_len]
+        mod = mod + self.OFFSET
+        while(div >= 1):
+            div = div - 1
+            result = self.alph[mod % self.alph_len] + result
+            mod = div % self.alph_len
+            div = div // self.alph_len
+            if mod + self.OFFSET > self.alph_len - 1:
+                div = div + 1
+            mod = mod + self.OFFSET
+        return(self.alph[mod % self.alph_len] + result)
 
     def decode_int(self, e8):
         if not self.check(e8):

@@ -4,6 +4,9 @@ from erdi8 import Erdi8
 
 
 class E8Test(unittest.TestCase):
+
+    KNOWN_VALUES = "test/test.csv"
+
     def test_inc_enc_dec(self):
         e8 = Erdi8()
         a = "a"
@@ -14,6 +17,19 @@ class E8Test(unittest.TestCase):
             self.assertEqual(i, dec)
             a = e8.increment(a)
         self.assertEqual(a, "ifa")
+
+    def test_known_values(self):
+        e8 = Erdi8()
+        k = []
+        with open(self.KNOWN_VALUES, "r") as f:
+            m = f.readline()
+            while m:
+                k.append(tuple([x.strip() for x in m.split(" ")]))
+                m = f.readline()
+        for i in k:
+            print(f'checking {i}...')
+            self.assertEqual(e8.encode_int(int(i[0])), i[1])
+            self.assertEqual(e8.decode_int(i[1]), int(i[0]))
 
     def test_inc_fancy_safe(self):
         e8 = Erdi8(safe=True)
