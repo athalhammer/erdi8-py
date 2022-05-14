@@ -24,7 +24,7 @@ class E8Test(unittest.TestCase):
         with open(self.KNOWN_VALUES, "r") as f:
             m = f.readline()
             while m:
-                k.append(tuple([x.strip() for x in m.split(" ")]))
+                k.append(tuple([x.strip() for x in m.split(",")]))
                 m = f.readline()
         for i in k:
             print(f'checking {i}...')
