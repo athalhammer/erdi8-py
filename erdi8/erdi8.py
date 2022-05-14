@@ -54,18 +54,25 @@ class Erdi8:
                 flag = False
         return flag
 
-    def increment(self, current):
-        if not self.check(current):
-            return None
+    def increment(self, current=None):
         if not current:
             return self.alph[self.OFFSET]
-        tail = current[-1]
-        current = current[:-1]
-        pos = self.alph_map[tail] + 1
-        if pos > len(self.alph) - 1:
-            return self.increment(current) + self.alph[pos % self.alph_len]
-        else:
-            return current + self.alph[pos]
+        if not self.check(current):
+            return None
+        current = list(current)
+        carry = True
+        count = 1
+        while carry:
+            char = current[len(current) - count]
+            pos = self.alph_map[char] + 1
+            current[len(current) - count] = self.alph[pos % self.alph_len]
+            if pos >= self.alph_len:
+                count = count + 1
+            else:
+                carry = False
+            if count > len(current):
+                current.insert(0, self.alph[self.OFFSET - 1])
+        return "".join(current)
 
     def increment_fancy(self, current, seed):
         if not self.check(current):
