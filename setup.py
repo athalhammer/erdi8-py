@@ -5,11 +5,11 @@ with open("README.md", "r") as f:
 
 setup(
     name='erdi8',
-    version='0.0.2',
+    version='0.1.0',
     url='https://github.com/athalhammer/erdi8',
     author='Andreas Thalhammer',
     author_email='andreas@thalhammer.bayern',
-    description='Count according to lower case alphabet and numbers (without ambiguous 0, 1, and l)',
+    description='Count according to lower case alphabet and numbers (without ambiguous 0, 1, and l) and always start with a letter',
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=['erdi8'],
