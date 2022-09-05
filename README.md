@@ -82,14 +82,14 @@ def id_serv():
     mutex.acquire()
     try:
         with open('last-id.txt', 'r') as f:
-            iden = f.readline().strip()
-            print(iden)
+            old = f.readline().strip()
+            print(old)
         with open('last-id.txt', 'w') as f:
-            a = f'{e8.increment_fancy(iden, seed)}\n'
-            f.write(a)
+            new = f'{e8.increment_fancy(old, seed)}\n'
+            f.write(new)
     finally:
         mutex.release()
-        return a
+        return new
 
 if __name__ == "__main__":
     flsk.run()
