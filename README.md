@@ -48,6 +48,62 @@ $ python3
 k7zydqrp64
 ```
 
+### More advanced
+Run a light-weight identifier service (requires Flask):
+
+**Preparation**
+
+```
+$ echo "b222222222" >> last-id.txt
+```
+
+**Server code**
+```
+# id-server.py
+from threading import Lock
+from flask import Flask
+from erdi8 import Erdi8
+
+flsk = Flask(__name__)
+e8 = Erdi8(safe=True)
+seed = 453459956896834
+mutex = Lock()
+
+@flsk.route("/")
+def id_serv():
+    a = ""
+    mutex.acquire()
+    try:
+        with open('last-id.txt', 'r') as f:
+            iden = f.readline().strip()
+            print(iden)
+        with open('last-id.txt', 'w') as f:
+            a = f'{e8.increment_fancy(iden, seed)}\n'
+            f.write(a)
+    finally:
+        mutex.release()
+        return a
+
+if __name__ == "__main__":
+    flsk.run()
+```
+
+**Test**
+```
+$ python3 id.server.py
+
+# From a different terminal
+$ while true; do curl -s localhost:5000 >> ids; done
+
+# After some seconds stop with: CTRL+C
+$ head asdf
+fmzz7cwc43
+k7zydqrp64
+ptzxm3mz85
+tfzwsfhbb6
+...
+```
+
 **NOTE**
 
 0. These sequences may have a "fancy" appearance but __they are not random__. They are perfectly predictable and are designed to "fill up the whole mod space" before previously coined identifiers start re-appearing.
