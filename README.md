@@ -48,8 +48,15 @@ $ python3
 k7zydqrp64
 ```
 
+**NOTE**
+
+0. These sequences may have a "fancy" appearance but __they are not random__. They are perfectly predictable and are designed to "fill up the whole mod space" before previously coined identifiers start re-appearing.
+1. The `safe=True` option helps you to avoid unintended words (i.e. removes the characters `[aeiou]` from the alphabet)
+2. The fancy increment works with fixed lengths. If you work with a length of 10 (like above) You will have `20 * 28^9 = 211'569'119'068'160` options with `safe=True`. If you think you have more things to identify at some point you have two options: a) start directly with more characters or b) check for the start value (in this case `b222222222`) to re-appear - this will be the identifier that will "show up twice" first.
+3. Store the following four parts in a safe place: a) `safe` parameter b) the `start` value c) the `seed` value. On top, keep good track of the `current` value.
+
 ### More advanced
-Run a light-weight identifier service (requires Flask):
+Run a light-weight erdi8 identifier service (requires Flask):
 
 **Preparation**
 
@@ -104,12 +111,6 @@ tfzwsfhbb6
 ...
 ```
 
-**NOTE**
-
-0. These sequences may have a "fancy" appearance but __they are not random__. They are perfectly predictable and are designed to "fill up the whole mod space" before previously coined identifiers start re-appearing.
-1. The `safe=True` option helps you to avoid unintended words (i.e. removes the characters `[aeiou]` from the alphabet)
-2. The fancy increment works with fixed lengths. If you work with a length of 10 (like above) You will have `20 * 28^9 = 211'569'119'068'160` options with `safe=True`. If you think you have more things to identify at some point you have two options: a) start directly with more characters or b) check for the start value (in this case `b222222222`) to re-appear - this will be the identifier that will "show up twice" first.
-3. Store the following four parts in a safe place: a) `safe` parameter b) the `start` value c) the `seed` value. On top, keep good track of the `current` value.
 
 ## Test cases
 
