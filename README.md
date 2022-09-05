@@ -54,7 +54,7 @@ Run a light-weight identifier service (requires Flask):
 **Preparation**
 
 ```
-$ echo "b222222222" >> last-id.txt
+$ echo "b222222222" > last-id.txt
 ```
 
 **Server code**
@@ -96,7 +96,7 @@ $ python3 id.server.py
 $ while true; do curl -s localhost:5000 >> ids; done
 
 # After some seconds stop with: CTRL+C
-$ head asdf
+$ head ids
 fmzz7cwc43
 k7zydqrp64
 ptzxm3mz85
