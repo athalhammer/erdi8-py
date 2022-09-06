@@ -78,7 +78,7 @@ mutex = Lock()
 
 @flsk.route("/")
 def id_serv():
-    a = ""
+    new = ""
     mutex.acquire()
     try:
         with open('last-id.txt', 'r') as f:
