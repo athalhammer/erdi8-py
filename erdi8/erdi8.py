@@ -16,6 +16,7 @@
 import math
 import sys
 
+
 class Erdi8:
     # A value of 8 avoids that the first character of the identifier is a number
     OFFSET = 8
@@ -78,8 +79,8 @@ class Erdi8:
         if not self.check(current):
             return None
         length = len(current)
-        mini = self.decode_int('z' * (length - 1)) + 1
-        maxi = self.decode_int('z' * length)
+        mini = self.decode_int(self.alph[-1] * (length - 1)) + 1
+        maxi = self.decode_int(self.alph[-1] * length)
         space = maxi - mini + 1
         while math.gcd(mini + seed, space) != 1:
             seed = seed + 1
@@ -92,7 +93,7 @@ class Erdi8:
         if mod + self.OFFSET > self.alph_len - 1:
             div = div + 1
         mod = mod + self.OFFSET
-        while(div >= 1):
+        while div >= 1:
             div = div - 1
             result = self.alph[mod % self.alph_len] + result
             mod = div % self.alph_len
@@ -100,7 +101,7 @@ class Erdi8:
             if mod + self.OFFSET > self.alph_len - 1:
                 div = div + 1
             mod = mod + self.OFFSET
-        return(self.alph[mod % self.alph_len] + result)
+        return self.alph[mod % self.alph_len] + result
 
     def decode_int(self, e8):
         if not self.check(e8):
@@ -112,8 +113,8 @@ class Erdi8:
             e8 = e8[:-1]
             result = (
                 result
-                + (self.alph_map[tail] + 1) * (self.alph_len ** counter)
-                - self.OFFSET * self.alph_len ** counter
+                + (self.alph_map[tail] + 1) * (self.alph_len**counter)
+                - self.OFFSET * self.alph_len**counter
             )
             counter = counter + 1
         return result - 1

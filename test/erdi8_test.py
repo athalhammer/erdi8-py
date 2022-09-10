@@ -27,7 +27,7 @@ class E8Test(unittest.TestCase):
                 k.append(tuple([x.strip() for x in m.split(",")]))
                 m = f.readline()
         for i in k:
-            print(f'checking {i}...')
+            print(f"checking {i}...")
             self.assertEqual(e8.encode_int(int(i[0])), i[1])
             self.assertEqual(e8.decode_int(i[1]), int(i[0]))
 
