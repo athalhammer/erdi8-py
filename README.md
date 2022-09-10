@@ -66,9 +66,10 @@ $ echo "b222222222" > last-id.txt
 
 **Server code**
 ```
+#!/usr/bin/env python3
 # id-server.py
 from threading import Lock
-from flask import Flask
+from flask import Flask, Response
 from erdi8 import Erdi8
 
 flsk = Flask(__name__)
@@ -76,23 +77,32 @@ e8 = Erdi8(safe=True)
 seed = 453459956896834
 mutex = Lock()
 
+
 @flsk.route("/")
 def id_serv():
-    new = ""
+    new = None
     mutex.acquire()
     try:
-        with open('last-id.txt', 'r') as f:
+        with open("last-id.txt", "r") as f:
             old = f.readline().strip()
-            print(old)
-        with open('last-id.txt', 'w') as f:
-            new = f'{e8.increment_fancy(old, seed)}\n'
-            f.write(new)
+        with open("last-id.txt", "w") as f:
+            new = f"{e8.increment_fancy(old, seed)}"
+            flsk.logger.info(f"Update: {old} --> {new}")
+            print(new, file=f)
     finally:
         mutex.release()
-        return new
+        if new is None:
+            new = "null"
+        else:
+            new = f'"{new}"'
+        return Response(
+            f'{{\n"id":{new}\n}}\n', status=201, mimetype="application/json"
+        )
+
 
 if __name__ == "__main__":
     flsk.run()
+
 ```
 
 **Test**
