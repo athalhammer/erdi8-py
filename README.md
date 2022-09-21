@@ -56,68 +56,66 @@ k7zydqrp64
 3. Store the following four parts in a safe place: a) `safe` parameter b) the `start` value c) the `seed` value. On top, keep good track of the `current` value.
 
 ### More advanced
-Run a light-weight erdi8 identifier service (requires Flask):
-
-**Preparation**
-
-```
-$ echo "b222222222" > last-id.txt
-```
+Run a light-weight erdi8 identifier service (requires FastAPI):
 
 **Server code**
 ```
-#!/usr/bin/env python3
-# id-server.py
+# fastid.py
+
 from threading import Lock
-from flask import Flask, Response
+from typing import Union
+from fastapi import FastAPI
+from pydantic import BaseModel
 from erdi8 import Erdi8
 
-flsk = Flask(__name__)
+
+app = FastAPI()
+
+mutex = Lock()
 e8 = Erdi8(safe=True)
 seed = 453459956896834
-mutex = Lock()
+start = "b222222222"
+filename = "last-id.txt"
 
+class IdModel(BaseModel):
+    id: Union[str, None] = None
 
-@flsk.route("/")
-def id_serv():
-    new = None
+@app.post("/", status_code=201, response_model=IdModel)
+async def id_generator():
+    old = start
     mutex.acquire()
     try:
-        with open("last-id.txt", "r") as f:
+        with open(filename, "r") as f:
             old = f.readline().strip()
-        with open("last-id.txt", "w") as f:
-            new = f"{e8.increment_fancy(old, seed)}"
-            flsk.logger.info(f"Update: {old} --> {new}")
+    except:
+        pass
+    try:
+        with open(filename, "w") as f:
+            new = e8.increment_fancy(old, seed)
             print(new, file=f)
     finally:
         mutex.release()
-        if new is None:
-            new = "null"
-        else:
-            new = f'"{new}"'
-        return Response(
-            f'{{\n"id":{new}\n}}\n', status=201, mimetype="application/json"
-        )
-
-
-if __name__ == "__main__":
-    flsk.run()
-
+        return {"id": new}
 ```
 
 **Test**
 ```
-$ python3 id.server.py
+$ uvicorn fastid:app --reload
 
 # From a different terminal
-$ while true; do curl -s localhost:5000 >> ids; done
+$ while true; do printf "$(curl -X POST http://127.0.0.1:8000)\n" >> ids; done
 
 # After some seconds stop with: CTRL+C
 $ head ids
-fmzz7cwc43
-k7zydqrp64
-ptzxm3mz85
-tfzwsfhbb6
+{"id":"fmzz7cwc43"}
+{"id":"k7zydqrp64"}
+{"id":"ptzxm3mz85"}
+{"id":"tfzwsfhbb6"}
+{"id":"y2zvyscnd7"}
+{"id":"cnzv657yg8"}
+{"id":"h8ztch49j9"}
+{"id":"mvzsjtymmb"}
+{"id":"rgzrr6txpc"}
 ...
 ```
 
