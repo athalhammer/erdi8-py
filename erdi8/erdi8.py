@@ -30,7 +30,6 @@ class Erdi8:
             self.alph = "".join([a for a in self.alph if a not in self.UNSAFE])
             self.safe = True
         self.alph_map = {a: self.alph.find(a) for a in self.alph}
-        self.alph_BAK = self.alph
         self.alph_len = len(self.alph)
 
     def check(self, string):
