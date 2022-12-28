@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     erdi8_filename: str
 
     class Config:
-        env_file = "fastid.env"
+        env_file = "fasterid.env"
 
 settings = Settings()
 e8 = Erdi8(settings.erdi8_safe)

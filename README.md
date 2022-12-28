@@ -61,13 +61,13 @@ Run a light-weight erdi8 identifier service (requires FastAPI):
 **Fast API server**
 ```
 $ pip install -r requirements.txt
-$ cat fastid.env
+$ cat fasterid.env
 	ERDI8_SEED = "453459956896834"
 	ERDI8_START = "b222222222"
 	ERDI8_SAFE = "True"
 	ERDI8_FILENAME = "last-id.txt"
 
-$ uvicorn fastid:app
+$ uvicorn fasterid:app
 	INFO:     Started server process [116821]
 	INFO:     Waiting for application startup.
 	INFO:     Application startup complete.
