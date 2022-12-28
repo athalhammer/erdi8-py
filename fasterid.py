@@ -36,7 +36,10 @@ async def id_generator():
         if tmp == settings.erdi8_start:
             raise HTTPException(500, detail="🤷 ran out of identifiers")
         else:
-            new = e8.increment_fancy(old, settings.erdi8_seed)
+            try:
+                new = e8.increment_fancy(old, settings.erdi8_seed)
+            except Exception as e:
+                raise HTTPException(500, detail=getattr(e, 'message', repr(e)))
             f.seek(0)
             print(new, file=f)
             return {"id": new}
