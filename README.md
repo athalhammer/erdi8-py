@@ -58,50 +58,26 @@ k7zydqrp64
 ### More advanced
 Run a light-weight erdi8 identifier service (requires FastAPI):
 
-**Server code**
+**Fast API server**
 ```
-# fastid.py
+$ pip install -r requirements.txt
+$ cat fastid.env
+	ERDI8_SEED = "453459956896834"
+	ERDI8_START = "b222222222"
+	ERDI8_SAFE = "True"
+	ERDI8_FILENAME = "last-id.txt"
 
-from threading import Lock
-from typing import Union
-from fastapi import FastAPI
-from pydantic import BaseModel
-from erdi8 import Erdi8
+$ uvicorn fastid:app
+	INFO:     Started server process [116821]
+	INFO:     Waiting for application startup.
+	INFO:     Application startup complete.
+	INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
 
-
-app = FastAPI()
-
-mutex = Lock()
-e8 = Erdi8(safe=True)
-seed = 453459956896834
-start = "b222222222"
-filename = "last-id.txt"
-
-class IdModel(BaseModel):
-    id: Union[str, None] = None
-
-@app.post("/", status_code=201, response_model=IdModel)
-async def id_generator():
-    old = start
-    mutex.acquire()
-    try:
-        with open(filename, "r") as f:
-            old = f.readline().strip()
-    except:
-        pass
-    try:
-        with open(filename, "w") as f:
-            new = e8.increment_fancy(old, seed)
-            print(new, file=f)
-    finally:
-        mutex.release()
-        return {"id": new}
+# Call http://127.0.0.1:8000/docs for API info in a browser
 ```
 
 **Test**
 ```
-$ uvicorn fastid:app --reload
-
 # From a different terminal
 $ while true; do printf "$(curl -X POST http://127.0.0.1:8000)\n" >> ids; done
 
@@ -125,10 +101,6 @@ $ head ids
 ```
 $ python3 -m unittest test/erdi8_test.py 
 ```
-
-## Intended use
-
-When you run an identifier redirect service of the type `https://purl.example.org/` your users can reserve "their space" for their current business application and or domain. We encourage the administrator of such a service to offer opaque folder names for long-term identifier stability. These folder names can be chosen to follow the erdi8 scheme and offer 825 (25 * 33) potential two-character folder names. In addition, also subfolder names and local accession identifiers can be generated with this scheme such that FAIR data objects can be identified with URIs of the type `https://purl.example.org/b7/a/erdi8`.
 
 ## FAQ
 
