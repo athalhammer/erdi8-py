@@ -39,19 +39,14 @@ class Erdi8:
         flag = True
         flag = string[0] not in self.alph[: self.OFFSET]
         if not flag:
-            print(
-                "Error: Not a valid erdi8 string, starts with " + string[0],
-                file=sys.stderr,
-            )
+            raise Exception("Error: Not a valid erdi8 string, starts with " + string[0])
         for i in string:
             if self.alph_map.get(i) is None:
-                print(
-                    "Error: Dectected unknown character: "
+                raise Exception("Error: Dectected unknown character: "
                     + i
                     + "; allowed are the following: "
-                    + self.alph,
-                    file=sys.stderr,
-                )
+                    + self.alph
+                    )
                 flag = False
         return flag
 

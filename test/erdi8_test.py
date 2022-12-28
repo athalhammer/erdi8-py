@@ -60,15 +60,15 @@ class E8Test(unittest.TestCase):
 
     def test_string_check(self):
         e8 = Erdi8()
-        self.assertFalse(e8.check("23"))
-        self.assertFalse(e8.check("2ab"))
-        self.assertFalse(e8.check("a23l"))
-        self.assertFalse(e8.check("ab1"))
+        self.assertRaises(Exception, e8.check, "23")
+        self.assertRaises(Exception, e8.check, "2ab")
+        self.assertRaises(Exception, e8.check, "a23l")
+        self.assertRaises(Exception, e8.check, "ab1")
 
     def test_safe(self):
         e8 = Erdi8(safe=True)
-        self.assertFalse(e8.check("b23a"))
-        self.assertFalse(e8.check("b2e3"))
-        self.assertFalse(e8.check("bi23"))
-        self.assertFalse(e8.check("b23o"))
-        self.assertFalse(e8.check("b2u3"))
+        self.assertRaises(Exception, e8.check, "b23a")
+        self.assertRaises(Exception, e8.check, "b2e3")
+        self.assertRaises(Exception, e8.check, "bi23")
+        self.assertRaises(Exception, e8.check, "b23o")
+        self.assertRaises(Exception, e8.check, "b2u3")
