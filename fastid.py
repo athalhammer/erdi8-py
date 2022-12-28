@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
-from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, BaseSettings
 from pathlib import Path
 from erdi8 import Erdi8
 
 class IdModel(BaseModel):
     id: str
+
+class ErrorModel(BaseModel):
+    detail: str
 
 class Settings(BaseSettings):
     erdi8_seed: int
@@ -24,19 +26,15 @@ app = FastAPI()
 
 Path(settings.erdi8_filename).touch(exist_ok=True)
 
-
-@app.post("/", status_code=201, response_model=IdModel)
+@app.post("/", status_code=201, responses={201: {"model": IdModel}, 500: {"model": ErrorModel}})
 async def id_generator():
     old = settings.erdi8_start
     with open(settings.erdi8_filename, "r+") as f:
-        try:
-            tmp = f.readline().strip()
-            if tmp != "":
-                old = tmp
-            if tmp == settings.erdi8_start:
-                return JSONResponse(status_code=500, content={'reason': 'ran out of identifiers'})
-        except:
-            pass
+        tmp = f.readline().strip()
+        if tmp != "":
+            old = tmp
+        if tmp == settings.erdi8_start:
+            raise HTTPException(500, detail="🤷 ran out of identifiers")
         else:
             new = e8.increment_fancy(old, settings.erdi8_seed)
             f.seek(0)
