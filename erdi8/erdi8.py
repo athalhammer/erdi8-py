@@ -113,3 +113,19 @@ class Erdi8:
             )
             counter = counter + 1
         return result - 1
+
+    def compute_seed(self, n, n_plus_1):
+        if not len(n) == len(n_plus_1):
+            return None
+        length = len(n)
+        mini = self.decode_int(self.alph[-1] * (length - 1)) + 1
+        maxi = self.decode_int(self.alph[-1] * length)
+        space = maxi - mini + 1
+        a = self.decode_int(n_plus_1)
+        b = self.decode_int(n)
+        if a > b:
+            return a - b - mini
+        elif a < b:
+            return (a - mini) + (space - b)
+        else:
+            raise Exception(f"Error: {n} and {n_plus_1} are the same")
