@@ -1,5 +1,6 @@
 import unittest
 import random
+import math
 from erdi8 import Erdi8
 
 
@@ -72,3 +73,30 @@ class E8Test(unittest.TestCase):
         self.assertRaises(Exception, e8.check, "bi23")
         self.assertRaises(Exception, e8.check, "b23o")
         self.assertRaises(Exception, e8.check, "b2u3")
+
+    def safe_stride(self, erdi8, current, stride):
+        mini, maxi, space = erdi8._mod_space(current)
+        stride = stride % space
+        while math.gcd(mini + stride, space) != 1:
+            stride = stride + 1
+        return stride
+
+    def test_stride_compute(self):
+        for i in range(0, 10000):
+            e8 = Erdi8(safe=True)
+            n = e8.encode_int(random.randint(0, 100000000000000000000000))
+            stride = self.safe_stride(e8, n, random.randint(0, 100000000000000000000000))
+            n_plus_1 = e8.increment_fancy(n, stride)
+            computed_stride = e8.compute_stride(n, n_plus_1)
+            print(n, n_plus_1, stride) 
+            self.assertEqual(stride, computed_stride)
+
+    def test_stride_compute_safe_false(self):
+        for i in range(0, 10000):
+            e8 = Erdi8(safe=False)
+            n = e8.encode_int(random.randint(0, 100000000000000000000000))
+            stride = self.safe_stride(e8, n, random.randint(0, 100000000000000000000000))
+            n_plus_1 = e8.increment_fancy(n, stride)
+            computed_stride = e8.compute_stride(n, n_plus_1)
+            print(n, n_plus_1, stride)
+            self.assertEqual(stride, computed_stride)
