@@ -70,16 +70,16 @@ class Erdi8:
                 current.insert(0, self.alph[self.OFFSET - 1])
         return "".join(current)
 
-    def increment_fancy(self, current, seed):
+    def increment_fancy(self, current, stride):
         if not self.check(current):
             return None
         length = len(current)
         mini = self.decode_int(self.alph[-1] * (length - 1)) + 1
         maxi = self.decode_int(self.alph[-1] * length)
         space = maxi - mini + 1
-        while math.gcd(mini + seed, space) != 1:
-            seed = seed + 1
-        return self.encode_int(mini + ((self.decode_int(current) + seed) % space))
+        while math.gcd(mini + stride, space) != 1:
+            stride = stride + 1
+        return self.encode_int(mini + ((self.decode_int(current) + stride) % space))
 
     def encode_int(self, div):
         result = ""
@@ -114,7 +114,7 @@ class Erdi8:
             counter = counter + 1
         return result - 1
 
-    def compute_seed(self, n, n_plus_1):
+    def compute_stride(self, n, n_plus_1):
         if not len(n) == len(n_plus_1):
             return None
         length = len(n)
@@ -128,4 +128,4 @@ class Erdi8:
         elif a < b:
             return (a - mini) + (space - b)
         else:
-            raise Exception(f"Error: {n} and {n_plus_1} are the same")
+            raise Exception(f"Error: '{n}' and '{n_plus_1}' are the same")
