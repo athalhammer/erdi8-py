@@ -70,13 +70,17 @@ class Erdi8:
                 current.insert(0, self.alph[self.OFFSET - 1])
         return "".join(current)
 
-    def increment_fancy(self, current, stride):
-        if not self.check(current):
-            return None
+    def _mod_space(self, current):
         length = len(current)
         mini = self.decode_int(self.alph[-1] * (length - 1)) + 1
         maxi = self.decode_int(self.alph[-1] * length)
         space = maxi - mini + 1
+        return (mini, maxi, space)
+
+    def increment_fancy(self, current, stride):
+        if not self.check(current):
+            return None
+        mini, maxi, space = self._mod_space(current)
         while math.gcd(mini + stride, space) != 1:
             stride = stride + 1
         return self.encode_int(mini + ((self.decode_int(current) + stride) % space))
@@ -117,15 +121,15 @@ class Erdi8:
     def compute_stride(self, n, n_plus_1):
         if not len(n) == len(n_plus_1):
             return None
-        length = len(n)
-        mini = self.decode_int(self.alph[-1] * (length - 1)) + 1
-        maxi = self.decode_int(self.alph[-1] * length)
+        if not self.check(n) or not self.check(n_plus_1):
+            return None
+        if n == n_plus_1:
+            raise Exception(f"Error: '{n}' and '{n_plus_1}' are the same")
+        mini, maxi, space = self._mod_space(n)
         space = maxi - mini + 1
         a = self.decode_int(n_plus_1)
         b = self.decode_int(n)
-        if a > b:
-            return a - b - mini
-        elif a < b:
-            return (a - mini) + (space - b)
-        else:
-            raise Exception(f"Error: '{n}' and '{n_plus_1}' are the same")
+        result = a - b - mini
+        while result < 0:
+            result = result + space
+        return result
