@@ -39,13 +39,17 @@ $ python3
 >>> from erdi8 import Erdi8
 >>> safe = True
 >>> start = 'b222222222'
->>> stride = 453459956896834
+>>> stride = 30321718760514
 >>> e8 = Erdi8(safe)
 >>> e8.increment_fancy(start, stride)
 'fmzz7cwc43'
 >>> current = e8.increment_fancy('fmzz7cwc43', stride)
 >>> print(current)
 k7zydqrp64
+
+# reverse engineer stride from two consecutive identifiers
+>>> e8.compute_stride('fmzz7cwc43', current)
+{'stride_effective': 30321718760517, 'stride_other_candidates': [30321718760516, 30321718760515, 30321718760514]}
 ```
 
 **NOTE**
