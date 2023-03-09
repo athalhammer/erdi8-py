@@ -42,11 +42,12 @@ class Erdi8:
             raise Exception("Error: Not a valid erdi8 string, starts with " + string[0])
         for i in string:
             if self.alph_map.get(i) is None:
-                raise Exception("Error: Dectected unknown character: "
+                raise Exception(
+                    "Error: Dectected unknown character: "
                     + i
                     + "; allowed are the following: "
                     + self.alph
-                    )
+                )
                 flag = False
         return flag
 
@@ -132,4 +133,9 @@ class Erdi8:
         result = a - b - mini
         while result < 0:
             result = result + space
-        return result
+        candidates = []
+        stride = result - 1
+        while math.gcd(mini + stride, space) != 1:
+            candidates.append(stride)
+            stride = stride - 1
+        return {"stride_effective": result, "stride_other_candidates": candidates}

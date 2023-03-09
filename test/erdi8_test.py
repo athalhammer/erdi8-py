@@ -89,7 +89,7 @@ class E8Test(unittest.TestCase):
             n_plus_1 = e8.increment_fancy(n, stride)
             computed_stride = e8.compute_stride(n, n_plus_1)
             print(n, n_plus_1, stride) 
-            self.assertEqual(stride, computed_stride)
+            self.assertEqual(stride, computed_stride["stride_effective"])
 
     def test_stride_compute_safe_false(self):
         for i in range(0, 10000):
@@ -97,6 +97,6 @@ class E8Test(unittest.TestCase):
             n = e8.encode_int(random.randint(0, 100000000000000000000000))
             stride = self.safe_stride(e8, n, random.randint(0, 100000000000000000000000))
             n_plus_1 = e8.increment_fancy(n, stride)
-            computed_stride = e8.compute_stride(n, n_plus_1)
             print(n, n_plus_1, stride)
-            self.assertEqual(stride, computed_stride)
+            computed_stride = e8.compute_stride(n, n_plus_1)
+            self.assertEqual(stride, computed_stride["stride_effective"])
