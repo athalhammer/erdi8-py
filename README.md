@@ -4,7 +4,7 @@
 
 # erdi8
 
-erdi8 is a [unique identifier](https://www.wikidata.org/wiki/Q6545185) scheme and counter that operates on the following alphabet:
+erdi8 is a [unique identifier](https://www.wikidata.org/wiki/Q6545185) acheme and identifier generator that counts with the following alphabet:
 
 ```
 ['2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 
