@@ -61,7 +61,7 @@ k7zydqrp64
 
 
 ### Advanced (random)
-Also see documentation of Python's integrated [`random`](https://docs.python.org/3/library/random.html) and [`secrets`](https://docs.python.org/3/library/secrets.html) modules, in particular for `random`: "The pseudo-random generators of this module should not be used for security purposes. For security or cryptographic uses, see the `secrets` module.". In any case, you should know what you are doing.
+Also see documentation of Python's integrated [`random`](https://docs.python.org/3/library/random.html) and [`secrets`](https://docs.python.org/3/library/secrets.html) modules, in particular for `random`: "The pseudo-random generators of this module should not be used for security purposes. For security or cryptographic uses, see the `secrets` module". In any case, you should know what you are doing.
 
 `random` module:
 
