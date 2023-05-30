@@ -88,7 +88,7 @@ class E8Test(unittest.TestCase):
             stride = self.safe_stride(e8, n, random.randint(0, 100000000000000000000000))
             n_plus_1 = e8.increment_fancy(n, stride)
             computed_stride = e8.compute_stride(n, n_plus_1)
-            print(n, n_plus_1, stride) 
+            print(n, n_plus_1, stride)
             self.assertEqual(stride, computed_stride["stride_effective"])
 
     def test_stride_compute_safe_false(self):
