@@ -71,8 +71,11 @@ class Erdi8:
                 current.insert(0, self.alph[self.OFFSET - 1])
         return "".join(current)
 
-    def _mod_space(self, current):
-        length = len(current)
+    def mod_space(self, length):
+        """
+        This function uses the decode_int function that has a loop in it. To get to the
+        exact size of the mod space (min max space) some type of recursion/loop is required.
+        """
         mini = self.decode_int(self.alph[-1] * (length - 1)) + 1
         maxi = self.decode_int(self.alph[-1] * length)
         space = maxi - mini + 1
@@ -81,7 +84,7 @@ class Erdi8:
     def increment_fancy(self, current, stride):
         if not self.check(current):
             return None
-        mini, maxi, space = self._mod_space(current)
+        mini, maxi, space = self.mod_space(len(current))
         while math.gcd(mini + stride, space) != 1:
             stride = stride + 1
         return self.encode_int(mini + ((self.decode_int(current) + stride) % space))
@@ -126,7 +129,7 @@ class Erdi8:
             return None
         if n == n_plus_1:
             raise Exception(f"Error: '{n}' and '{n_plus_1}' are the same")
-        mini, maxi, space = self._mod_space(n)
+        mini, maxi, space = self.mod_space(len(n))
         space = maxi - mini + 1
         a = self.decode_int(n_plus_1)
         b = self.decode_int(n)

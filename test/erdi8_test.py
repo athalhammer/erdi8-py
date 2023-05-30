@@ -75,7 +75,7 @@ class E8Test(unittest.TestCase):
         self.assertRaises(Exception, e8.check, "b2u3")
 
     def safe_stride(self, erdi8, current, stride):
-        mini, maxi, space = erdi8._mod_space(current)
+        mini, maxi, space = erdi8.mod_space(len(current))
         stride = stride % space
         while math.gcd(mini + stride, space) != 1:
             stride = stride + 1
