@@ -87,10 +87,10 @@ $ python3
 >>> from erdi8 import Erdi8
 >>> e8 = Erdi8()
 
-e8.encode_int(int.from_bytes(secrets.token_bytes()))
+>>> e8.encode_int(int.from_bytes(secrets.token_bytes()))
 'jtx3i83pii8wo98wzuucu7uag6khrfpabrdn3qrqrxdxauvcgjg'
 
-e8.encode_int(secrets.randbits(256))
+>>> e8.encode_int(secrets.randbits(256))
 'a53mpn3xntywcbdcvfa932ub34evne9oha8pzoy6ii3ur2e364z'
 ```
 
