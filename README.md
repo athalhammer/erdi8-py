@@ -16,7 +16,7 @@ It is basically a base36 alphabet that intentionally avoids the ambiguous charac
 ## Usage
 
 
-### Basic
+### Basic (counting)
 ```
 $ python3
 
@@ -30,7 +30,7 @@ $ python3
 'erdi8'
 ```
 
-### Advanced
+### Advanced (still counting)
 Fixed length "fancy" identifiers with `safe=True` 
 
 ```
@@ -59,7 +59,42 @@ k7zydqrp64
 2. The fancy increment works with fixed lengths. If you work with a length of 10 (like above) You will have `20 * 28^9 = 211'569'119'068'160` options with `safe=True`. If you think you have more things to identify at some point you have two options: a) start directly with more characters or b) check for the start value (in this case `b222222222`) to re-appear - this will be the identifier that will "show up twice" first.
 3. Store the following four parts in a safe place: a) `safe` parameter b) the `start` value c) the `stride` value. On top, keep good track of the `current` value.
 
-### More advanced
+
+### Advanced (random)
+Also see documentation of Python's integrated [`random`](https://docs.python.org/3/library/random.html) and [`secrets`](https://docs.python.org/3/library/secrets.html) modules, in particular for `random`: "The pseudo-random generators of this module should not be used for security purposes. For security or cryptographic uses, see the `secrets` module.". In any case, you should know what you are doing.
+
+`random` module:
+
+```
+$ python3
+
+>>> import random
+>>> from erdi8 import Erdi8
+>>> e8 = Erdi8()
+
+# get random erdi8 identifiers with length 10
+>>> mini, maxi, space = e8.mod_space(10)
+>>> e8.encode_int(random.randint(mini, maxi))
+'vvctyx7c6o'
+```
+
+`secrets` module:
+
+```
+$ python3
+
+>>> import secrets
+>>> from erdi8 import Erdi8
+>>> e8 = Erdi8()
+
+e8.encode_int(int.from_bytes(secrets.token_bytes()))
+'jtx3i83pii8wo98wzuucu7uag6khrfpabrdn3qrqrxdxauvcgjg'
+
+e8.encode_int(secrets.randbits(256))
+'a53mpn3xntywcbdcvfa932ub34evne9oha8pzoy6ii3ur2e364z'
+```
+
+### Even more advanced
 Run a light-weight erdi8 identifier service via [fasterid](https://github.com/athalhammer/fasterid)
 
 
