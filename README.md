@@ -4,7 +4,7 @@
 
 # erdi8
 
-erdi8 is a [unique identifier](https://www.wikidata.org/wiki/Q6545185) scheme and counter that operates on the following alphabet:
+erdi8 is a [unique identifier](https://www.wikidata.org/wiki/Q6545185) acheme and identifier generator that counts with the following alphabet:
 
 ```
 ['2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 
@@ -112,7 +112,7 @@ _Because we don't want to `erdi8` to be confused with `Erdi8`._
 
 __Why no start with a number?__
 
-_Because we want to avoid "number-only" identifiers. If we allowed to start with a number, we would have identifiers of the type `42` and `322` which could be mistaken for integers. We could achieve this with a more complex scheme avoiding any number-only combinations (would therefore still allow ids like `2z`, to be investigated)._
+_Because we want to avoid "number-only" identifiers. If we allowed to start with a number, we would have identifiers of the type `42` and `322` which could be mistaken for integers. We could achieve this with a more complex scheme avoiding any number-only combinations (would therefore still allow ids like `2z`, to be investigated). In essence it is important to note that programs like Excel are really creative when transforming input data, for example `08342 -> 8342`, `12e34 -> 12E+34`, `SEPT1 -> Sep-01` etc. erdi8 with the safe option on avoids 99% of these types of issues._
 
 __How about combinations that form actual (bad) words?__
 
