@@ -21,7 +21,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='erdi8',
-    version='0.2.0',
+    version='0.3.0',
     url='https://github.com/athalhammer/erdi8',
     author='Andreas Thalhammer',
     author_email='andreas@thalhammer.bayern',
