@@ -124,9 +124,9 @@ class Erdi8:
 
     def compute_stride(self, n, n_plus_1):
         if not len(n) == len(n_plus_1):
-            return None
+            raise Exception(f"Error: '{n}' and '{n_plus_1}' are of different length.")
         if not self.check(n) or not self.check(n_plus_1):
-            return None
+            pass
         if n == n_plus_1:
             raise Exception(f"Error: '{n}' and '{n_plus_1}' are the same")
         mini, maxi, space = self.mod_space(len(n))
@@ -137,7 +137,7 @@ class Erdi8:
             result = result + space
         if math.gcd(mini + result, space) != 1:
             raise Exception(
-                f"Error: '{result}' was detected as a stride but it is not suitable for an erdi8 mod space with length '{len(n)}'."
+                f"Error: '{result}' was detected as a stride but it is not suitable for an erdi8 mod space with length '{len(n)}'. Are you sure the two numbers '{n}' and '{n_plus_1}' are consecutive?"
             )
         candidates = []
         stride = result - 1
