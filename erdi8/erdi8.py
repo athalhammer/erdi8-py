@@ -135,6 +135,10 @@ class Erdi8:
         result = a - b - mini
         while result < 0:
             result = result + space
+        if math.gcd(mini + result, space) != 1:
+            raise Exception(
+                f"Error: '{result}' was detected as a stride but it is not suitable for an erdi8 mod space with length '{len(n)}'."
+            )
         candidates = []
         stride = result - 1
         while math.gcd(mini + stride, space) != 1:
