@@ -130,7 +130,6 @@ class Erdi8:
         if n == n_plus_1:
             raise Exception(f"Error: '{n}' and '{n_plus_1}' are the same")
         mini, maxi, space = self.mod_space(len(n))
-        space = maxi - mini + 1
         a = self.decode_int(n_plus_1)
         b = self.decode_int(n)
         result = a - b - mini
