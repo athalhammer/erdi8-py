@@ -95,6 +95,7 @@ $ python3
 ```
 
 ### Advanced (UUID)
+Also see the documentation of the [`uuid`](https://docs.python.org/3/library/uuid.html) integrated Python module.
 
 ```
 $ python3
