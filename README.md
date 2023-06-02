@@ -94,6 +94,22 @@ $ python3
 'a53mpn3xntywcbdcvfa932ub34evne9oha8pzoy6ii3ur2e364z'
 ```
 
+### Advanced (UUID)
+
+```
+$ python3
+
+>>> from erdi8 import Erdi8
+>>> import uuid
+>>> e8 = Erdi8()
+
+>>> e8.encode_int(uuid.uuid4().int)
+'au3jqjghpb7dqfejdanskzoaik'
+
+```
+
+**Note**: This will never start with a zero or will in any way generate "number only" strings.
+
 ### Even more advanced
 Run a light-weight erdi8 identifier service via [fasterid](https://github.com/athalhammer/fasterid)
 
