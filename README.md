@@ -108,7 +108,7 @@ $ python3 -m unittest test/erdi8_test.py
 
 __Why should I use erdi8 instead of [`shortuuid`](https://github.com/skorokithakis/shortuuid)?__
 
-__There are multiple aspects to it: `shortuuid` with the normal alphabet contains upper and lowercase characters. In erdi8 we avoid this (see below). There is the option to customize the alphabet of `shortuuid`: you could use the erdi8 alphabet for example. However, this leads to very long UUIDs. In this context, we find the following statement in the README particularly troublesome: "If 22 digits are too long for you, you can get shorter IDs by just truncating the string to the desired length.". This drops all beneficial stochastic properties of UUIDs and you need to run careful checks for potential identifier duplication. Here `erdi8` with its counting or "mod space counting" options has a significant advantage. 
+_There are multiple aspects to it: `shortuuid` with the normal alphabet contains upper and lowercase characters. In erdi8 we avoid this (see below). There is the option to customize the alphabet of `shortuuid`: you could use the erdi8 alphabet for example. However, this leads to very long UUIDs. In this context, we find the following statement in the README particularly troublesome: "If 22 digits are too long for you, you can get shorter IDs by just truncating the string to the desired length.". This drops all beneficial stochastic properties of UUIDs and you need to run careful checks for potential identifier duplication. Here `erdi8` with its counting or "mod space counting" options has a significant advantage._
 
 __Why no upper case characters?__
 
