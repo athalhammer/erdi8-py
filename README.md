@@ -104,8 +104,17 @@ $ python3
 >>> import uuid
 >>> e8 = Erdi8()
 
->>> e8.encode_int(uuid.uuid4().int)
+>>> a = uuid.uuid4()
+>>> a
+UUID('6e8f578c-577c-4f48-b6ac-bf135c310dc4')
+>>> b = e8.encode_int(a.int)
+
+# here we have the UUID encoded as erdi8 string - 10 char shorter than ordinary UUIDs
+>>> b
 'au3jqjghpb7dqfejdanskzoaik'
+
+>>> uuid.UUID(int=e8.decode_int(b))
+UUID('6e8f578c-577c-4f48-b6ac-bf135c310dc4')
 
 ```
 
