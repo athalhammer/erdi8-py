@@ -15,8 +15,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import math
-import sys
-
 
 class Erdi8:
     # A value of 8 avoids that the first character of the identifier is a number
@@ -48,7 +46,6 @@ class Erdi8:
                     + "; allowed are the following: "
                     + self.alph
                 )
-                flag = False
         return flag
 
     def increment(self, current=None):
