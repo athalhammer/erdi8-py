@@ -61,18 +61,18 @@ class E8Test(unittest.TestCase):
 
     def test_string_check(self):
         e8 = Erdi8()
-        self.assertRaises(Exception, e8.check, "23")
-        self.assertRaises(Exception, e8.check, "2ab")
-        self.assertRaises(Exception, e8.check, "a23l")
-        self.assertRaises(Exception, e8.check, "ab1")
+        self.assertRaises(ValueError, e8.check, "23")
+        self.assertRaises(ValueError, e8.check, "2ab")
+        self.assertRaises(ValueError, e8.check, "a23l")
+        self.assertRaises(ValueError, e8.check, "ab1")
 
     def test_safe(self):
         e8 = Erdi8(safe=True)
-        self.assertRaises(Exception, e8.check, "b23a")
-        self.assertRaises(Exception, e8.check, "b2e3")
-        self.assertRaises(Exception, e8.check, "bi23")
-        self.assertRaises(Exception, e8.check, "b23o")
-        self.assertRaises(Exception, e8.check, "b2u3")
+        self.assertRaises(ValueError, e8.check, "b23a")
+        self.assertRaises(ValueError, e8.check, "b2e3")
+        self.assertRaises(ValueError, e8.check, "bi23")
+        self.assertRaises(ValueError, e8.check, "b23o")
+        self.assertRaises(ValueError, e8.check, "b2u3")
 
     def safe_stride(self, erdi8, current, stride):
         mini, space = erdi8.mod_space(len(current))
@@ -100,3 +100,17 @@ class E8Test(unittest.TestCase):
             print(n, n_plus_1, stride)
             computed_stride = e8.compute_stride(n, n_plus_1)
             self.assertEqual(stride, computed_stride["stride_effective"])
+
+    def test_stride_edge_cases_safe_false(self):
+        e8 = Erdi8()
+        self.assertRaises(ValueError, e8.compute_stride, "a", "f")
+        self.assertRaises(ValueError, e8.compute_stride, "abc", "def")
+        self.assertRaises(ValueError, e8.compute_stride, "abc", "defg")
+        self.assertRaises(ValueError, e8.compute_stride, "b", "b")
+
+    def test_stride_edge_cases(self):
+        e8 = Erdi8(safe=True)
+        self.assertRaises(ValueError, e8.compute_stride, "b", "j")
+        self.assertRaises(ValueError, e8.compute_stride, "bcd", "fgj")
+        self.assertRaises(ValueError, e8.compute_stride, "bcd", "fgjh")
+        self.assertRaises(ValueError, e8.compute_stride, "b", "b")
