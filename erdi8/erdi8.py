@@ -16,8 +16,8 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import math
 
-class Erdi8:
 
+class Erdi8:
     # A value of 8 avoids that the first character of the identifier is a number
     OFFSET = 8
     UNSAFE = "aeiou"
@@ -38,10 +38,12 @@ class Erdi8:
         flag = True
         flag = string[0] not in self.alph[: self.OFFSET]
         if not flag:
-            raise Exception("Error: Not a valid erdi8 string, starts with " + string[0])
+            raise ValueError(
+                "Error: Not a valid erdi8 string, starts with " + string[0]
+            )
         for i in string:
             if self.alph_map.get(i) is None:
-                raise Exception(
+                raise ValueError(
                     "Error: Dectected unknown character: "
                     + i
                     + "; allowed are the following: "
@@ -122,11 +124,13 @@ class Erdi8:
 
     def compute_stride(self, erdi8, next_erdi8):
         if not len(erdi8) == len(next_erdi8):
-            raise Exception(f"Error: '{erdi8}' and '{next_erdi8}' are of different length.")
+            raise ValueError(
+                f"Error: '{erdi8}' and '{next_erdi8}' are of different length."
+            )
         if not self.check(erdi8) or not self.check(next_erdi8):
             pass
         if erdi8 == next_erdi8:
-            raise Exception(f"Error: '{erdi8}' and '{next_erdi8}' are the same")
+            raise ValueError(f"Error: '{erdi8}' and '{next_erdi8}' are the same")
         mini, space = self.mod_space(len(erdi8))
         next_erdi8_int = self.decode_int(next_erdi8)
         erdi8_int = self.decode_int(erdi8)
@@ -134,8 +138,10 @@ class Erdi8:
         while result < 0:
             result = result + space
         if math.gcd(mini + result, space) != 1:
-            raise Exception(
-                f"Error: '{result}' was detected as a stride but it is not suitable for an erdi8 mod space with length '{len(erdi8)}'. Are you sure the two numbers '{erdi8}' and '{next_erdi8}' are consecutive?"
+            raise ValueError(
+                f"Error: '{result}' was detected as a stride but it is not suitable for an "
+                f"erdi8 mod space with length '{len(erdi8)}'. "
+                f"Are you sure the two numbers '{erdi8}' and '{next_erdi8}' are consecutive?"
             )
         candidates = []
         stride = result - 1
