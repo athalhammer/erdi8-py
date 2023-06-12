@@ -17,6 +17,7 @@
 import math
 
 class Erdi8:
+
     # A value of 8 avoids that the first character of the identifier is a number
     OFFSET = 8
     UNSAFE = "aeiou"
@@ -76,12 +77,12 @@ class Erdi8:
         mini = self.decode_int(self.alph[-1] * (length - 1)) + 1
         maxi = self.decode_int(self.alph[-1] * length)
         space = maxi - mini + 1
-        return (mini, maxi, space)
+        return (mini, space)
 
     def increment_fancy(self, current, stride):
         if not self.check(current):
             return None
-        mini, maxi, space = self.mod_space(len(current))
+        mini, space = self.mod_space(len(current))
         while math.gcd(mini + stride, space) != 1:
             stride = stride + 1
         return self.encode_int(mini + ((self.decode_int(current) + stride) % space))
@@ -103,14 +104,14 @@ class Erdi8:
             mod = mod + self.OFFSET
         return self.alph[mod % self.alph_len] + result
 
-    def decode_int(self, e8):
-        if not self.check(e8):
+    def decode_int(self, erdi8):
+        if not self.check(erdi8):
             return None
         result = 0
         counter = 0
-        while e8:
-            tail = e8[-1]
-            e8 = e8[:-1]
+        while erdi8:
+            tail = erdi8[-1]
+            erdi8 = erdi8[:-1]
             result = (
                 result
                 + (self.alph_map[tail] + 1) * (self.alph_len**counter)
@@ -119,22 +120,22 @@ class Erdi8:
             counter = counter + 1
         return result - 1
 
-    def compute_stride(self, n, n_plus_1):
-        if not len(n) == len(n_plus_1):
-            raise Exception(f"Error: '{n}' and '{n_plus_1}' are of different length.")
-        if not self.check(n) or not self.check(n_plus_1):
+    def compute_stride(self, erdi8, next_erdi8):
+        if not len(erdi8) == len(next_erdi8):
+            raise Exception(f"Error: '{erdi8}' and '{next_erdi8}' are of different length.")
+        if not self.check(erdi8) or not self.check(next_erdi8):
             pass
-        if n == n_plus_1:
-            raise Exception(f"Error: '{n}' and '{n_plus_1}' are the same")
-        mini, maxi, space = self.mod_space(len(n))
-        a = self.decode_int(n_plus_1)
-        b = self.decode_int(n)
-        result = a - b - mini
+        if erdi8 == next_erdi8:
+            raise Exception(f"Error: '{erdi8}' and '{next_erdi8}' are the same")
+        mini, space = self.mod_space(len(erdi8))
+        next_erdi8_int = self.decode_int(next_erdi8)
+        erdi8_int = self.decode_int(erdi8)
+        result = next_erdi8_int - erdi8_int - mini
         while result < 0:
             result = result + space
         if math.gcd(mini + result, space) != 1:
             raise Exception(
-                f"Error: '{result}' was detected as a stride but it is not suitable for an erdi8 mod space with length '{len(n)}'. Are you sure the two numbers '{n}' and '{n_plus_1}' are consecutive?"
+                f"Error: '{result}' was detected as a stride but it is not suitable for an erdi8 mod space with length '{len(erdi8)}'. Are you sure the two numbers '{erdi8}' and '{next_erdi8}' are consecutive?"
             )
         candidates = []
         stride = result - 1
