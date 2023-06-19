@@ -79,12 +79,12 @@ class Erdi8:
         mini = self.decode_int(self.alph[-1] * (length - 1)) + 1
         maxi = self.decode_int(self.alph[-1] * length)
         space = maxi - mini + 1
-        return (mini, space)
+        return (mini, maxi, space)
 
     def increment_fancy(self, current, stride):
         if not self.check(current):
             return None
-        mini, space = self.mod_space(len(current))
+        mini, _, space = self.mod_space(len(current))
         while math.gcd(mini + stride, space) != 1:
             stride = stride + 1
         return self.encode_int(mini + ((self.decode_int(current) + stride) % space))
@@ -131,7 +131,7 @@ class Erdi8:
             pass
         if erdi8 == next_erdi8:
             raise ValueError(f"Error: '{erdi8}' and '{next_erdi8}' are the same")
-        mini, space = self.mod_space(len(erdi8))
+        mini, _, space = self.mod_space(len(erdi8))
         next_erdi8_int = self.decode_int(next_erdi8)
         erdi8_int = self.decode_int(erdi8)
         result = next_erdi8_int - erdi8_int - mini
