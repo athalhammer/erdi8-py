@@ -121,7 +121,7 @@ UUID('6e8f578c-577c-4f48-b6ac-bf135c310dc4')
 **Note**: This will never start with a zero or will in any way generate "number only" strings.
 
 ### Advanced (xid)
-See also [`xid`](https://github.com/rs/xid). With `erdi8` encoding you "lose" some of the properties (i.e. k-sortedness) while gaining others, i.e. omitting problematic `[0, 1, l]`, reducing to 19 characters only (at least until 2065 where it will switch to 20) and always start with a char. Note: The properties of `xid`s are not really lost as there is a bijective transformation via the int value of the 12 bytes of the xid. If you want to omitt "bad" words you can use the `safe=True` erdi8 option and the character count increases to 20 (unti 2081 after which it will switch to 21; until ~2105 where it will switch to 22).
+See also [`xid`](https://github.com/rs/xid). With `erdi8` encoding you "lose" some of the properties (i.e. k-sortedness) while gaining others, i.e. omitting problematic `[0, 1, l]`, reducing to 19 characters only (at least until 2065 where it will switch to 20) and always start with a char. Note: The properties of `xid`s are not really lost as there is a bijective transformation via the int value of the 12 bytes of the xid. If you want to omit "bad" words you can use the `safe=True` erdi8 option and the character count increases to 20 (unti 2081 after which it will switch to 21; until ~2105 where it will switch to 22).
 ```
 $ python3
 
