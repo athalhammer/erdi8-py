@@ -143,6 +143,7 @@ $ python3
 ```
 
 **Note**: The 19 characters are not stable and will switch to 20 in the year 2065. The maximum xid is in the early year 2106 and has a erdi8 encoding of length 20 (21 with `safe=True`). 
+
 **Note_1** As of writing this I'm actually not sure if the k-sortedness property will be lost with the conversion to erdi8.
 
 ### Even more advanced
