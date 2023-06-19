@@ -120,6 +120,28 @@ UUID('6e8f578c-577c-4f48-b6ac-bf135c310dc4')
 
 **Note**: This will never start with a zero or will in any way generate "number only" strings.
 
+### Advanced (xid)
+See also [`xid`](https://github.com/rs/xid). With `erdi8` encoding you "lose" some of the properties (i.e. k-sortedness) while gaining others, i.e. omitting problematic `[0, 1, l]`, reducing to 19 characters only, always start with a char. Note: The properties of `xid`s are not really lost as there is a bijective transformation via the int value of the 12 bytes of the xid. If you want to omitt "bad" words you can use the `safe=True` erdi8 option and the character count stays 20 as in `xid`.
+```
+$ python3
+
+>>> from erdi8 import Erdi8
+>>> from xid import Xid
+
+>>> x = Xid()
+>>> x.string()
+'ci89h1b24t2mlfb24teg'
+
+>>> e8 = Erdi8()
+>>> e = e8.encode_int(int.from_bytes(x.value))
+>>> e
+'op34e9rackpsch39few'
+
+>>> y = Xid(e8.decode_int('op34e9rackpsch39few').to_bytes(12))
+>>> y.string()
+'ci89h1b24t2mlfb24teg'
+```
+
 ### Even more advanced
 Run a light-weight erdi8 identifier service via [fasterid](https://github.com/athalhammer/fasterid)
 
