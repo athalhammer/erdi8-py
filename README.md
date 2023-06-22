@@ -121,7 +121,7 @@ UUID('6e8f578c-577c-4f48-b6ac-bf135c310dc4')
 **Note**: This will never start with a zero or will in any way generate "number only" strings.
 
 ### Advanced (xid)
-See also [`xid`](https://github.com/rs/xid). With `erdi8` encoding you "lose" some of the properties (i.e. k-sortedness, see also `Note_1` below) while gaining others, i.e. omitting problematic `[0, 1, l]`, reducing to 19 characters only (at least until 2065 where it will switch to 20) and always start with a char. The properties of `xid`s are not really lost as there is a bijective transformation via the int value of the 12 bytes of the xid. If you want to omit "bad" words you can use the `safe=True` erdi8 option and the character count increases to 20 (unti 2081 after which it will switch to 21).
+See also [`xid`](https://github.com/rs/xid). With `erdi8` encoding you gain some properties i.e. omitting problematic `[0, 1, l]` or also `[a, e, i, o, u]` (with the `safe=True` option to avoid "bad" words, see below in the FAQ), reducing to 19 characters only (at least until 2065 where it will switch to 20) or maintaining 20 characters while omitting `[a, e, i, o, u]` with `safe=True` (until 2081 after which it will switch to 21), and always start with a char. The k-sortedness property of xids will be maintained with the respective length (e.g., you should not compare 19 and 20 char xid+erdi8 strings after 2065 without modifications. You could add a leading `0` which is not in the erdi8 alphabet and can serve as a padding after 2065). The properties of `xid`s are kept as there is a bijective transformation via the int value of the 12 bytes of any xid.
 ```
 $ python3
 
@@ -141,10 +141,6 @@ $ python3
 >>> y.string()
 'ci89h1b24t2mlfb24teg'
 ```
-
-**Note**: The 19 characters are not stable and will switch to 20 in the year 2065. The maximum xid is in the early year 2106 and has a erdi8 encoding of length 20 (21 with `safe=True`). 
-
-**Note_1** As of writing this I'm actually not sure if the k-sortedness property will be lost with the conversion to erdi8.
 
 ### Even more advanced
 Run a light-weight erdi8 identifier service via [fasterid](https://github.com/athalhammer/fasterid)
