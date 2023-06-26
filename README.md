@@ -94,6 +94,45 @@ $ python3
 'a53mpn3xntywcbdcvfa932ub34evne9oha8pzoy6ii3ur2e364z'
 ```
 
+### Advancesd (Hash functions)
+erdi8 is compatible to the most common hash functions that typically output the digest in hexadecimal format.
+
+```
+$ python3
+>>> import hashlib
+>>> from erdi8 import Erdi8
+
+>>> s = "asdf".encode("ascii")
+>>> hashlib.sha256(s).hexdigest()
+'f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b'
+>>> hashlib.md5(s).hexdigest()
+'912ec803b2ce49e4a541068d495ab570'
+
+
+>>> e8 = Erdi8()
+>>> e8.encode_int(int.from_bytes(hashlib.sha256(s).digest()))
+'n6vz5j427zw66qx9n4jk9sw7otrvu38gdteehsocbke3xocvqok'
+>>> e8.encode_int(int.from_bytes(hashlib.md5(s).digest()))
+'bcmhm477p7poz6sv8jpr4cqu4h'
+
+>>> e9 = Erdi8(safe=True)
+>>> e9.encode_int(int.from_bytes(hashlib.sha256(s).digest()))
+'cg8644xv4txkj49sfzcwn49h3hvsqb8xm2pqxxfxxg7mpz3nwsmhnf'
+>>> e8.encode_int(int.from_bytes(hashlib.md5(s).digest()))
+'fv3y2y9mgbr4xs85z5qb6bp4dxm'
+
+>>> hex(e8.decode_int('n6vz5j427zw66qx9n4jk9sw7otrvu38gdteehsocbke3xocvqok'))
+'0xf0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b'
+>>> hex(e8.decode_int('bcmhm477p7poz6sv8jpr4cqu4h'))
+'0x912ec803b2ce49e4a541068d495ab570
+
+>>> hex(e9.decode_int('cg8644xv4txkj49sfzcwn49h3hvsqb8xm2pqxxfxxg7mpz3nwsmhnf'))
+'0xf0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b'
+hex(e9.decode_int('fv3y2y9mgbr4xs85z5qb6bp4dxm'))
+'0x912ec803b2ce49e4a541068d495ab570'
+
+```
+
 ### Advanced (UUID)
 Also see the documentation of the [`uuid`](https://docs.python.org/3/library/uuid.html) integrated Python module.
 
