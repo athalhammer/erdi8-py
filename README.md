@@ -94,38 +94,43 @@ $ python3
 'a53mpn3xntywcbdcvfa932ub34evne9oha8pzoy6ii3ur2e364z'
 ```
 
-### Advancesd (Hash functions)
+### Advanced (Hash functions)
 erdi8 is compatible to the most common hash functions that typically output the digest in hexadecimal format.
 
 ```
 $ python3
->>> import hashlib
->>> from erdi8 import Erdi8
 
+>>> from erdi8 import Erdi8
+>>> import hashlib
+
+# prepare the item to be hashed and display the digests for sha256 and md5
 >>> s = "asdf".encode("ascii")
 >>> hashlib.sha256(s).hexdigest()
 'f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b'
 >>> hashlib.md5(s).hexdigest()
 '912ec803b2ce49e4a541068d495ab570'
 
-
+# encode the respective digests with erdi8
 >>> e8 = Erdi8()
 >>> e8.encode_int(int.from_bytes(hashlib.sha256(s).digest()))
 'n6vz5j427zw66qx9n4jk9sw7otrvu38gdteehsocbke3xocvqok'
 >>> e8.encode_int(int.from_bytes(hashlib.md5(s).digest()))
 'bcmhm477p7poz6sv8jpr4cqu4h'
 
+# same as above but safe=True
 >>> e9 = Erdi8(safe=True)
 >>> e9.encode_int(int.from_bytes(hashlib.sha256(s).digest()))
 'cg8644xv4txkj49sfzcwn49h3hvsqb8xm2pqxxfxxg7mpz3nwsmhnf'
 >>> e8.encode_int(int.from_bytes(hashlib.md5(s).digest()))
 'fv3y2y9mgbr4xs85z5qb6bp4dxm'
 
+# re-establish the hexdigest
 >>> hex(e8.decode_int('n6vz5j427zw66qx9n4jk9sw7otrvu38gdteehsocbke3xocvqok'))
 '0xf0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b'
 >>> hex(e8.decode_int('bcmhm477p7poz6sv8jpr4cqu4h'))
 '0x912ec803b2ce49e4a541068d495ab570
 
+# re-establish the hexdigest with from safe=True
 >>> hex(e9.decode_int('cg8644xv4txkj49sfzcwn49h3hvsqb8xm2pqxxfxxg7mpz3nwsmhnf'))
 '0xf0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b'
 hex(e9.decode_int('fv3y2y9mgbr4xs85z5qb6bp4dxm'))
@@ -142,6 +147,7 @@ $ python3
 >>> from erdi8 import Erdi8
 >>> import uuid
 >>> e8 = Erdi8()
+>>> e9 = Erdi8(safe=True)
 
 >>> a = uuid.uuid4()
 >>> a
@@ -152,7 +158,17 @@ UUID('6e8f578c-577c-4f48-b6ac-bf135c310dc4')
 >>> b
 'au3jqjghpb7dqfejdanskzoaik'
 
+# same as above but with safe=True
+>>> c = e9.encode_int(a.int)
+>>> c
+'drmhy438mjhqdsbxhzn6v27b8n6'
+
+# reverse
 >>> uuid.UUID(int=e8.decode_int(b))
+UUID('6e8f578c-577c-4f48-b6ac-bf135c310dc4')
+
+# reverse with safe=True
+>>> uuid.UUID(int=e9.decode_int(c))
 UUID('6e8f578c-577c-4f48-b6ac-bf135c310dc4')
 
 ```
