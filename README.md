@@ -129,8 +129,15 @@ $ python3
 >>> from xid import Xid
 
 >>> x = Xid()
+
+# or, if you want to reproduce the below:
+>>> x = Xid([100, 144, 152, 133, 98, 39, 69, 106, 189, 98, 39, 93])
+
 >>> x.string()
 'ci89h1b24t2mlfb24teg'
+
+>>> x.value
+[100, 144, 152, 133, 98, 39, 69, 106, 189, 98, 39, 93]
 
 >>> e8 = Erdi8()
 >>> e = e8.encode_int(int.from_bytes(x.value))
@@ -140,6 +147,15 @@ $ python3
 >>> y = Xid(e8.decode_int('op34e9rackpsch39few').to_bytes(12))
 >>> y.string()
 'ci89h1b24t2mlfb24teg'
+
+>>> e9 = Erdi8(safe=True)
+>>> f = e9.encode_int(int.from_bytes(x.value))
+>>> f
+'n7dsv982t6dxymy4z5t3'
+>>> z = Xid(e9.decode_int('n7dsv982t6dxymy4z5t3').to_bytes(12))
+>>> z.string()
+'ci89h1b24t2mlfb24teg'
+
 ```
 
 ### Even more advanced
