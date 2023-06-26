@@ -235,7 +235,7 @@ _Because we don't want to `erdi8` to be confused with `Erdi8`._
 
 __Why no start with a number?__
 
-_Because we want to avoid "number-only" identifiers. If we allowed to start with a number, we would have identifiers of the type `42` and `322` which could be mistaken for integers. We could achieve this with a more complex scheme avoiding any number-only combinations (would therefore still allow ids like `2z`, to be investigated). In essence it is important to note that programs like Excel are really creative when transforming input data, for example `08342 -> 8342`, `12e34 -> 12E+34`, `SEPT1 -> Sep-01` etc. erdi8 with the safe option on avoids 99% of these types of issues._
+_Because we want to avoid "number-only" identifiers. If we allowed to start with a number, we would have identifiers of the type `42` and `322` which could be mistaken for integers. We could achieve this with a more complex scheme avoiding any number-only combinations (would therefore still allow ids like `2z`, to be investigated). In additoin, certain technologies such as XML don't support element names that start with a number. In particular, QNAMES such as `asdf:123` are not allowed. Finally, it is important to note that programs like Excel are really creative when transforming input data, for example `08342 -> 8342`, `12e34 -> 12E+34`, `SEPT1 -> Sep-01` etc. erdi8 with the safe option on avoids 99% of these types of issues._
 
 __How about combinations that form actual (bad) words?__
 
@@ -244,3 +244,7 @@ _This depends on the use case and the way erdi8 is used. Therefore, we can recom
 __How does this relate to binary-to-text encodings such as base32 and base64?__
 
 _erdi8 can be used for a binary-to-text encoding and the basic functions to implement this are provided with `encode_int` and `decode_int`. However, the primary purpose is to provide a short counting scheme for identifiers._
+
+__What could be a drawback of using erdi8?__
+
+_It depends how you use it. If you use it to re-encode integer representations of other byte-array-like objects (secret numbers, hash digests, UUIDs, xids) it is likely that the length of the strings produced by erdi8 will vary. This variance may be predictable (like with `xid`s) but most likely will be completely random (like secrets, hash digests, etc). A minimum and maximum length can be calculated given the number of bytes and the chosen erdi8 options (`safe=True` vs `safe=False`). At the moment we don't support padding in such cases but it could be implemented as an extension if the use case requires it._
