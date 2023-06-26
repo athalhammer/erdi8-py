@@ -94,7 +94,7 @@ $ python3
 'a53mpn3xntywcbdcvfa932ub34evne9oha8pzoy6ii3ur2e364z'
 ```
 
-### Advanced (Hash functions)
+### Advanced (hash functions)
 erdi8 is compatible to the most common hash functions that typically output the digest in hexadecimal format.
 
 ```
