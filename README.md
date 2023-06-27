@@ -73,7 +73,7 @@ $ python3
 >>> e8 = Erdi8()
 
 # get random erdi8 identifiers with length 10
->>> mini, maxi, space = e8.mod_space(10)
+>>> mini, maxi, _ = e8.mod_space(10)
 >>> e8.encode_int(random.randint(mini, maxi))
 'vvctyx7c6o'
 ```
@@ -95,7 +95,7 @@ $ python3
 ```
 
 ### Advanced (hash functions)
-erdi8 is compatible to the most common hash functions that typically output the digest in hexadecimal format.
+erdi8 is compatible to the most common hash functions that typically output the digest in hexadecimal format. Also refer to the integrated [`hashlib`](https://docs.python.org/3/library/hashlib.html) Python module. In addition, consider other [hash functions](https://softwareengineering.stackexchange.com/questions/49550/which-hashing-algorithm-is-best-for-uniqueness-and-speed).
 
 ```
 $ python3
@@ -121,7 +121,7 @@ $ python3
 >>> e9 = Erdi8(safe=True)
 >>> e9.encode_int(int.from_bytes(hashlib.sha256(s).digest()))
 'cg8644xv4txkj49sfzcwn49h3hvsqb8xm2pqxxfxxg7mpz3nwsmhnf'
->>> e8.encode_int(int.from_bytes(hashlib.md5(s).digest()))
+>>> e9.encode_int(int.from_bytes(hashlib.md5(s).digest()))
 'fv3y2y9mgbr4xs85z5qb6bp4dxm'
 
 # re-establish the hexdigest
@@ -176,7 +176,7 @@ UUID('6e8f578c-577c-4f48-b6ac-bf135c310dc4')
 **Note**: This will never start with a zero or will in any way generate "number only" strings.
 
 ### Advanced (xid)
-See also [`xid`](https://github.com/rs/xid). With `erdi8` encoding you gain some properties i.e. omitting problematic `[0, 1, l]` or also `[a, e, i, o, u]` (with the `safe=True` option to avoid "bad" words, see below in the FAQ), reducing to 19 characters only (at least until 2065 where it will switch to 20) or maintaining 20 characters while omitting `[a, e, i, o, u]` with `safe=True` (until 2081 after which it will switch to 21), and always start with a char. The k-sortedness property of xids will be maintained with the respective length (e.g., you should not compare 19 and 20 char xid+erdi8 strings after 2065 without modifications. You could add a leading `0` which is not in the erdi8 alphabet and can serve as a padding after 2065). The properties of `xid`s are kept as there is a bijective transformation via the int value of the 12 bytes of any xid.
+See also [`xid`](https://github.com/rs/xid). With `erdi8` encoding you gain some properties i.e. omitting problematic `[0, 1, l]` or also `[a, e, i, o, u]` (with the `safe=True` option to avoid "bad" words, see below in the FAQ), reducing to 19 characters only (at least until 2065 where it will switch to 20) or maintaining 20 characters while omitting `[a, e, i, o, u]` with `safe=True` (until 2081 after which it will switch to 21), and always start with a char (in fact, current or future xids will also start with a char). The k-sortedness property of xids will be maintained with the respective length (e.g., you should not compare 19 and 20 char xid+erdi8 strings after 2065 without modifications. You could add a leading `0` which is not in the erdi8 alphabet and can serve as a padding after 2065). The properties of `xid`s are kept as there is a bijective transformation via the int value of the 12 bytes of any xid.
 ```
 $ python3
 
