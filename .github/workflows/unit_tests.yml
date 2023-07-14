@@ -37,5 +37,6 @@ jobs:
         run: |
           python -m unittest test/erdi8_test.py
       - name: Runs pytype
+        run: |
           python -m pytype erdi8/erdi8.py
 
