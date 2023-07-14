@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import math
-from typing import Union, Dict, List
+from typing import Union, Dict, List, Optional
 
 
 class Erdi8:
@@ -107,7 +107,7 @@ class Erdi8:
             mod = mod + self.OFFSET
         return self.alph[mod % self.alph_len] + result
 
-    def decode_int(self, erdi8: str) -> int | None:
+    def decode_int(self, erdi8: str) -> Optional[int]:
         if not self.check(erdi8):
             return None
         result = 0
