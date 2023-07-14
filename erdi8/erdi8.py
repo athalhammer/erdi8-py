@@ -15,7 +15,12 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import math
-from typing import Union, Dict, List, Optional, Tuple
+from typing import Union, TypedDict, List, Optional, Tuple
+
+
+class ComputedStride(TypedDict):
+    stride_effective: int
+    stride_other_candidates: List[int]
 
 
 class Erdi8:
@@ -123,9 +128,7 @@ class Erdi8:
             counter = counter + 1
         return int(result - 1)
 
-    def compute_stride(
-        self, erdi8: str, next_erdi8: str
-    ) -> Dict[str, Union[List[int], int]]:
+    def compute_stride(self, erdi8: str, next_erdi8: str) -> ComputedStride:
         if not len(erdi8) == len(next_erdi8):
             raise ValueError(
                 f"Error: '{erdi8}' and '{next_erdi8}' are of different length."
