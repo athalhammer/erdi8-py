@@ -52,7 +52,7 @@ class Erdi8:
                 )
         return flag
 
-    def increment(self, current: str = None) -> Optional[str]:
+    def increment(self, current: Optional[str] = None) -> Optional[str]:
         if not current:
             return self.alph[self.OFFSET]
         if not self.check(current):
