@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import math
-from typing import Union, Dict, List, Optional
+from typing import Union, Dict, List, Optional, Tuple
 
 
 class Erdi8:
@@ -52,7 +52,7 @@ class Erdi8:
                 )
         return flag
 
-    def increment(self, current: str = None) -> str:
+    def increment(self, current: str = None) -> Optional[str]:
         if not current:
             return self.alph[self.OFFSET]
         if not self.check(current):
@@ -72,7 +72,7 @@ class Erdi8:
                 current.insert(0, self.alph[self.OFFSET - 1])
         return "".join(current)
 
-    def mod_space(self, length: int) -> (int, int, int):
+    def mod_space(self, length: int) -> Tuple[int, int, int]:
         """
         This function uses the decode_int function that has a loop in it. To get to the
         exact size of the mod space (min max space) some type of recursion/loop is required.
@@ -82,7 +82,7 @@ class Erdi8:
         space = maxi - mini + 1
         return (mini, maxi, space)
 
-    def increment_fancy(self, current: str, stride: int) -> str:
+    def increment_fancy(self, current: str, stride: int) -> Optional[str]:
         if not self.check(current):
             return None
         mini, _, space = self.mod_space(len(current))
