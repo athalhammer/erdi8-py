@@ -30,14 +30,14 @@ setup(
     long_description_content_type="text/markdown",
     packages=['erdi8'],
     classifiers=[
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: OS Independent',
         'Topic :: Other/Nonlisted Topic',
     ],
-    python_requires='>=3.7',
+    python_requires='>=3.8',
     install_requires=[]
 )
