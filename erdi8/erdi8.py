@@ -15,6 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import math
+from typing import Union, Dict, List, Optional, Tuple
 
 
 class Erdi8:
@@ -32,7 +33,7 @@ class Erdi8:
         self.alph_map = {a: self.alph.find(a) for a in self.alph}
         self.alph_len = len(self.alph)
 
-    def check(self, string):
+    def check(self, string: str) -> bool:
         if string == "":
             return True
         flag = True
@@ -51,7 +52,7 @@ class Erdi8:
                 )
         return flag
 
-    def increment(self, current=None):
+    def increment(self, current: Optional[str] = None) -> Optional[str]:
         if not current:
             return self.alph[self.OFFSET]
         if not self.check(current):
@@ -71,7 +72,7 @@ class Erdi8:
                 current.insert(0, self.alph[self.OFFSET - 1])
         return "".join(current)
 
-    def mod_space(self, length):
+    def mod_space(self, length: int) -> Tuple[int, int, int]:
         """
         This function uses the decode_int function that has a loop in it. To get to the
         exact size of the mod space (min max space) some type of recursion/loop is required.
@@ -81,7 +82,7 @@ class Erdi8:
         space = maxi - mini + 1
         return (mini, maxi, space)
 
-    def increment_fancy(self, current, stride):
+    def increment_fancy(self, current: str, stride: int) -> Optional[str]:
         if not self.check(current):
             return None
         mini, _, space = self.mod_space(len(current))
@@ -89,7 +90,7 @@ class Erdi8:
             stride = stride + 1
         return self.encode_int(mini + ((self.decode_int(current) + stride) % space))
 
-    def encode_int(self, div):
+    def encode_int(self, div: int) -> str:
         result = ""
         mod = div % self.alph_len
         div = div // self.alph_len
@@ -106,7 +107,7 @@ class Erdi8:
             mod = mod + self.OFFSET
         return self.alph[mod % self.alph_len] + result
 
-    def decode_int(self, erdi8):
+    def decode_int(self, erdi8: str) -> Optional[int]:
         if not self.check(erdi8):
             return None
         result = 0
@@ -120,9 +121,11 @@ class Erdi8:
                 - self.OFFSET * self.alph_len**counter
             )
             counter = counter + 1
-        return result - 1
+        return int(result - 1)
 
-    def compute_stride(self, erdi8, next_erdi8):
+    def compute_stride(
+        self, erdi8: str, next_erdi8: str
+    ) -> Dict[str, Union[List[int], int]]:
         if not len(erdi8) == len(next_erdi8):
             raise ValueError(
                 f"Error: '{erdi8}' and '{next_erdi8}' are of different length."
