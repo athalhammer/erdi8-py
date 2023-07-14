@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
+        python-version: [ "3.7", "3.8", "3.9", "3.10" ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -36,4 +36,6 @@ jobs:
       - name: Runs unit tests
         run: |
           python -m unittest test/erdi8_test.py
+      - name: Runs pytype
+          python -m pytype erdi8/erdi8.py
 
