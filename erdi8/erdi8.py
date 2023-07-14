@@ -15,6 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import math
+from typing import Union, Dict, List
 
 
 class Erdi8:
@@ -106,7 +107,7 @@ class Erdi8:
             mod = mod + self.OFFSET
         return self.alph[mod % self.alph_len] + result
 
-    def decode_int(self, erdi8: str) -> int:
+    def decode_int(self, erdi8: str) -> int | None:
         if not self.check(erdi8):
             return None
         result = 0
@@ -120,9 +121,11 @@ class Erdi8:
                 - self.OFFSET * self.alph_len**counter
             )
             counter = counter + 1
-        return result - 1
+        return int(result - 1)
 
-    def compute_stride(self, erdi8: str, next_erdi8: str) -> int:
+    def compute_stride(
+        self, erdi8: str, next_erdi8: str
+    ) -> Dict[str, Union[List[int], int]]:
         if not len(erdi8) == len(next_erdi8):
             raise ValueError(
                 f"Error: '{erdi8}' and '{next_erdi8}' are of different length."
