@@ -14,16 +14,45 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+"""
+erdi8 is a unique identifier scheme and identifier generator and transformer
+that operates on the following alphabet:
+
+"23456789abcdefghijkmnopqrstuvwxyz"
+
+It is basically a base36 alphabet that intentionally avoids the ambiguous 
+characters [0, 1, and l] and therefore shrinks to 33. In addition to that, it
+ensures that no identifier starts with a numeric value by using an offset of 8.
+The zero is represented by 'a', 25 is represented by 'a2', etc. With three
+characters or less one can create 28'075 (25 + 25 * 33 + 25 * 33 * 33) different
+identifiers. With 6 characters or less we have 1'008'959'350 options. In a traditional
+identifier world, one would use a prefix, e.g. M, and then an integer. This only
+gives you 100k identifiers (M0 to M99999) with up to 6 characters. The scheme enables
+consecutive counting and is therefore free of collisions. In particular, it is not a
+method to create secret identifiers.
+"""
+
 import math
-from typing import Union, TypedDict, List, Optional, Tuple
+from typing import TypedDict, List, Optional, Tuple
 
 
 class ComputedStride(TypedDict):
+    """
+    Custom type for computed stride. It resturns the effective stride as well as
+    a list of candidates that were not suitable due to not having a greatest
+    common denominator of 1 with the actual size of the space.
+    """
+
     stride_effective: int
     stride_other_candidates: List[int]
 
 
 class Erdi8:
+    """
+    The Erdi8 class.
+    """
+
     # A value of 8 avoids that the first character of the identifier is a number
     OFFSET = 8
     UNSAFE = "aeiou"
@@ -31,7 +60,14 @@ class Erdi8:
     alph = "23456789abcdefghijkmnopqrstuvwxyz"
     safe = False
 
-    def __init__(self, safe=False):
+    def __init__(self, safe: bool = False):
+        """
+        Erdi8 Constructor.
+
+        :param safe: A boolean to indicate whether [a,e,i,o,u] should be excluded
+        as a profanity filter.
+
+        """
         if safe:
             self.alph = "".join([a for a in self.alph if a not in self.UNSAFE])
             self.safe = True
@@ -39,6 +75,11 @@ class Erdi8:
         self.alph_len = len(self.alph)
 
     def check(self, string: str) -> bool:
+        """
+        Method that supports checking or valid erdi8 strings.
+
+        :param string: returns True if it's a valid erd8 string, otherwise False.
+        """
         if string == "":
             return True
         flag = True
@@ -58,6 +99,12 @@ class Erdi8:
         return flag
 
     def increment(self, current: Optional[str] = None) -> Optional[str]:
+        """
+        Simple increment for erdi8
+
+        :param current: current erdi8 value
+        :returns: next erdi8 value
+        """
         if not current:
             return self.alph[self.OFFSET]
         if not self.check(current):
@@ -81,6 +128,9 @@ class Erdi8:
         """
         This function uses the decode_int function that has a loop in it. To get to the
         exact size of the mod space (min max space) some type of recursion/loop is required.
+
+        :param length: the modspace length in which we are operating
+        :returns: a tuple of three values: min, max, and space size of the mod space.
         """
         mini = self.decode_int(self.alph[-1] * (length - 1)) + 1
         maxi = self.decode_int(self.alph[-1] * length)
@@ -88,6 +138,13 @@ class Erdi8:
         return (mini, maxi, space)
 
     def increment_fancy(self, current: str, stride: int) -> Optional[str]:
+        """
+        This method increments to the next value but uses a stride. It operates in a mod space
+
+        :param current: current erdi8 value
+        :param stride: stride parameter - a int denoting the stride
+        :returns: next erdi8 value
+        """
         if not self.check(current):
             return None
         mini, _, space = self.mod_space(len(current))
@@ -96,6 +153,12 @@ class Erdi8:
         return self.encode_int(mini + ((self.decode_int(current) + stride) % space))
 
     def encode_int(self, div: int) -> str:
+        """
+        This method encodes a integer to an erdi8 string.
+
+        :param div: integer to be encoded.
+        :returns: encoded integer as erdi8 value.
+        """
         result = ""
         mod = div % self.alph_len
         div = div // self.alph_len
@@ -113,6 +176,12 @@ class Erdi8:
         return self.alph[mod % self.alph_len] + result
 
     def decode_int(self, erdi8: str) -> Optional[int]:
+        """
+        This method retuns a integer given a erdi8 string.
+
+        :param erdi8: erdi8 string to be decoded.
+        :returns: decoded integer value.
+        """
         if not self.check(erdi8):
             return None
         result = 0
@@ -129,6 +198,15 @@ class Erdi8:
         return int(result - 1)
 
     def compute_stride(self, erdi8: str, next_erdi8: str) -> ComputedStride:
+        """
+        This method computes possible stride values as well as the finally effective
+        stride. It needs two successing erdi8 values from a mod-space setting. It reverse
+        engineers the stride for the increment_fancy method.
+
+        :param erdi8: n erdi8 value.
+        :param next_erdi8: n+1 erdi8 value.
+        :returns: effective stride and possible alternatives.
+        """
         if not len(erdi8) == len(next_erdi8):
             raise ValueError(
                 f"Error: '{erdi8}' and '{next_erdi8}' are of different length."
