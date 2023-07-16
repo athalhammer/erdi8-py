@@ -1,5 +1,6 @@
-#    erdi8 - a unique identifier scheme and counter that operates on the
-#    base-36 alphabet without [0, 1, and l]
+#    erdi8 -  a unique identifier scheme and identifier generator and transformer
+#    that operates on the base-36 alphabet without [0, 1, and l]
+#
 #    Copyright (C) 2021  Andreas Thalhammer
 #
 #    This program is free software: you can redistribute it and/or modify
