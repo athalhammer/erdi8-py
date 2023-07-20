@@ -210,6 +210,10 @@ class Erdi8:
         :param bytes: bytes object of length 4 to be encoded.
         :returns: bytes object as erdi8 value of length 7.
         """
+        if not (isinstance(bts, list) or isinstance(bts, bytes)):
+            raise ValueError(
+                f"Error: We only encode lists of bytes. You provided {type(bts)}."
+            )
         if len(bts) == 4:
             # type check
             for b in bts:

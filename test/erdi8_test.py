@@ -5,7 +5,6 @@ from erdi8 import Erdi8
 
 
 class E8Test(unittest.TestCase):
-
     KNOWN_VALUES = "test/test.csv"
 
     def test_inc_enc_dec(self):
@@ -85,7 +84,9 @@ class E8Test(unittest.TestCase):
         for i in range(0, 10000):
             e8 = Erdi8(safe=True)
             n = e8.encode_int(random.randint(0, 100000000000000000000000))
-            stride = self.safe_stride(e8, n, random.randint(0, 100000000000000000000000))
+            stride = self.safe_stride(
+                e8, n, random.randint(0, 100000000000000000000000)
+            )
             n_plus_1 = e8.increment_fancy(n, stride)
             computed_stride = e8.compute_stride(n, n_plus_1)
             print(n, n_plus_1, stride)
@@ -95,7 +96,9 @@ class E8Test(unittest.TestCase):
         for i in range(0, 10000):
             e8 = Erdi8(safe=False)
             n = e8.encode_int(random.randint(0, 100000000000000000000000))
-            stride = self.safe_stride(e8, n, random.randint(0, 100000000000000000000000))
+            stride = self.safe_stride(
+                e8, n, random.randint(0, 100000000000000000000000)
+            )
             n_plus_1 = e8.increment_fancy(n, stride)
             print(n, n_plus_1, stride)
             computed_stride = e8.compute_stride(n, n_plus_1)
@@ -114,3 +117,18 @@ class E8Test(unittest.TestCase):
         self.assertRaises(ValueError, e8.compute_stride, "bcd", "fgj")
         self.assertRaises(ValueError, e8.compute_stride, "bcd", "fgjh")
         self.assertRaises(ValueError, e8.compute_stride, "b", "b")
+
+    def test_encode_four_bytes(self):
+        e8 = Erdi8()
+        self.assertRaises(ValueError, e8.encode_four_bytes, [12, 12, 12])
+        self.assertRaises(ValueError, e8.encode_four_bytes, "asdf")
+        self.assertRaises(ValueError, e8.encode_four_bytes, [12.0, 12, 12, 12])
+        self.assertRaises(ValueError, e8.encode_four_bytes, 12)
+        self.assertRaises(ValueError, e8.encode_four_bytes, [12, 12, 12, 12, 12])
+        self.assertRaises(ValueError, e8.encode_four_bytes, (12, 12, 12, 12))
+
+    def test_encode_four_bytes(self):
+        e8 = Erdi8()
+        e8.encode_four_bytes([12, 12, 12, 12])
+        e8.encode_four_bytes(bytes("asdf", "utf-8"))
+        e8.encode_four_bytes(b"\xaa\xee\x00\xff")
