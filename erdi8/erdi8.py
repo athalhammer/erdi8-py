@@ -198,6 +198,43 @@ class Erdi8:
             counter = counter + 1
         return int(result - 1)
 
+    def encode_four_bytes(self, bts: List[int]) -> str:
+        """
+        This method encodes a bytes object of size 4 to an erdi8 string. This will return a string with a
+        fixed length of 7. Using this method will result in a compaction of 4 bytes to 7 characters.
+        Note that this is significantly worse than the base64 encoding which encodes 3 bytes to 4 characters and
+        also base32 which encodes 5 bytes to 8 characters. The advantage of this method is that it can be used
+        with the option safe=True to avoid profanity. It also ensures that the first character is not a number
+        therefore also avoids number-only identifiers.
+
+        :param bytes: bytes object of length 4 to be encoded.
+        :returns: bytes object as erdi8 value of length 7.
+        """
+        if not (isinstance(bts, list) or isinstance(bts, bytes)):
+            raise ValueError(
+                f"Error: We only encode lists of bytes. You provided {type(bts)}."
+            )
+        if len(bts) == 4:
+            # type check
+            for b in bts:
+                if not isinstance(b, int):
+                    raise ValueError(
+                        f"Error: We only encode bytes. You provided {type(b)}."
+                    )
+                else:
+                    if b < 0 or b > 255:
+                        raise ValueError(
+                            f"Error: A byte has a value between 0 and 255. You provided {b}."
+                        )
+
+            return self.encode_int(
+                int.from_bytes(bts, "big") + self.decode_int("zzzzzz") + 1
+            )
+        else:
+            raise ValueError(
+                f"Error: We only encode 4 bytes at at time. You provided {len(bts)} bytes."
+            )
+
     def compute_stride(self, erdi8: str, next_erdi8: str) -> ComputedStride:
         """
         This method computes possible stride values as well as the finally effective
