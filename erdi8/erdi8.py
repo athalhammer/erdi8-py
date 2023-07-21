@@ -59,7 +59,6 @@ class Erdi8:
     UNSAFE = "aeiou"
 
     alph = "23456789abcdefghijkmnopqrstuvwxyz"
-    safe = False
 
     def __init__(self, safe: bool = False):
         """
@@ -71,7 +70,6 @@ class Erdi8:
         """
         if safe:
             self.alph = "".join([a for a in self.alph if a not in self.UNSAFE])
-            self.safe = True
         self.alph_map = {a: self.alph.find(a) for a in self.alph}
         self.alph_len = len(self.alph)
 
