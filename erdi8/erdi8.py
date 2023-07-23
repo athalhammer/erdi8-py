@@ -233,6 +233,24 @@ class Erdi8:
                 f"Error: We only encode 4 bytes at at time. You provided {len(bts)} bytes."
             )
 
+    def decode_four_bytes(self, erdi8: str) -> Optional[List[int]]:
+        """
+        This method decodes an erdi8 string of length 7 to a bytes object of size 4. This will return a bytes object
+
+        :param erdi8: erdi8 string of length 7 to be decoded.
+        :returns: decoded bytes object of length 4.
+        """
+        if not self.check(erdi8):
+            return None
+        if len(erdi8) == 7:
+            return (self.decode_int(erdi8) - self.decode_int("zzzzzz") - 1).to_bytes(
+                4, "big"
+            )
+        else:
+            raise ValueError(
+                f"Error: We only decode 7 characters at at time. You provided {len(erdi8)} characters."
+            )
+
     def compute_stride(self, erdi8: str, next_erdi8: str) -> ComputedStride:
         """
         This method computes possible stride values as well as the finally effective

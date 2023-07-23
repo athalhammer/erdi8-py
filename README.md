@@ -213,6 +213,29 @@ $ python3
 
 ```
 
+### Advanced (encode bytes)
+`erdi8`, by default works with integer representations. In particular, it represents any larger sequence of bytes as an integer. There are two main assumptions: 1) The size of the integers is usually small as one of the goals is concise identifiers. 2) The data is static and we are *not* considering streams of data (at the time of encoding the beginning we don't know the end yet). However, these assumptions may be wrong or may not hold for your use case. Therefore, we offer a method that can encode four bytes as erdi8 at a time. It results in junks of `erdi8` identifiers of length seven that can be concatenated if needed. The respective function is called `encode_four_bytes`.
+
+```
+$ python3
+
+>>> from erdi8 import Erdi8
+>>> e8 = Erdi8()
+>>> e8.encode_four_bytes(bytes("erdi", "ascii"))
+'bci7jr2'
+
+>>> e8.decode_four_bytes('bci7jr2')
+b'erdi'
+
+>>> e9 = Erdi8(True)
+>>> e9.encode_four_bytes(bytes("erdi", "ascii"))
+'fjx2mt3'
+>>> e9.decode_four_bytes('fjx2mt3')
+b'erdi'
+```
+
+**NOTE**: These two methods are not compatible to the other `erdi8` functions. The integers behind the four byte junks are altered so that we ensure it will always result in a `erdi8` identifier character length of 7.
+
 ### Even more advanced
 Run a light-weight erdi8 identifier service via [fasterid](https://github.com/athalhammer/fasterid)
 
