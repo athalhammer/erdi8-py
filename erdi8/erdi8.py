@@ -233,7 +233,7 @@ class Erdi8:
                 f"Error: We only encode 4 bytes at at time. You provided {len(bts)} bytes."
             )
 
-    def decode_four_bytes(self, erdi8: str) -> Optional(bytes):
+    def decode_four_bytes(self, erdi8: str) -> bytes:
         """
         This method decodes an erdi8 string of length 7 to a bytes object of size 4. This will return a bytes object
 
