@@ -1,4 +1,4 @@
-![example workflow](https://github.com/athalhammer/erdi8/actions/workflows/unit_tests.yml/badge.svg)
+[![example workflow](https://github.com/athalhammer/erdi8/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/athalhammer/erdi8-py/actions/workflows/unit_tests.yml)
 [![PyPI](https://img.shields.io/pypi/v/erdi8)](https://pypi.org/project/erdi8)
 [![GitHub license](https://img.shields.io/github/license/athalhammer/erdi8.svg)](https://github.com/athalhammer/erdi8/blob/master/LICENSE)
 
