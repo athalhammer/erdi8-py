@@ -17,6 +17,7 @@ A TypeScript implementation is available at [erdi8-ts](https://github.com/athalh
 
 ## Usage
 
+Install with `pip install erdi8`
 
 ### Basic (counting)
 ```
