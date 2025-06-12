@@ -22,7 +22,7 @@ that operates on the following alphabet:
 
 "23456789abcdefghijkmnopqrstuvwxyz"
 
-It is basically a base36 alphabet that intentionally avoids the ambiguous 
+It is basically a base36 alphabet that intentionally avoids the ambiguous
 characters [0, 1, and l] and therefore shrinks to 33. In addition to that, it
 ensures that no identifier starts with a numeric value by using an offset of 8.
 The zero is represented by 'a', 25 is represented by 'a2', etc. With three
@@ -151,6 +151,29 @@ class Erdi8:
         while math.gcd(mini + stride, space) != 1:
             stride = stride + 1
         return self.encode_int(mini + ((self.decode_int(current) + stride) % space))
+
+    def split_fancy_space(
+        self, length: int, stride: int, number_chunks: int
+    ) -> List[str]:
+        """
+        This method splits the fancy space into a number of chunks. It operates in a mod space.
+        It returns a list of start values for each space. The end value of the space is the next start value.
+        For the last start value the end value is the first value.
+
+        :param length: the length of the erdi8 identifier
+        :param stride: a int denoting the stride
+        :param number_chunks: number of chunks to split the space into
+        :returns: list of erdi8 values representing the start of each chunk
+        """
+        mini, _, space = self.mod_space(length)
+        while math.gcd(mini + stride, space) != 1:
+            stride = stride + 1
+        chunk_size = space // number_chunks
+        result = []
+        for i in range(number_chunks):
+            int_value = mini + (chunk_size * i * (mini + stride) % space)
+            result.append(self.encode_int(int_value))
+        return result
 
     def encode_int(self, div: int) -> str:
         """

@@ -52,7 +52,7 @@ class E8Test(unittest.TestCase):
         col_set = set()
         stride = random.randint(0, 100000000000000000000000)
         # do the full tour
-        for i in range(0, target_len):
+        for _ in range(target_len):
             col_set.add(current)
             current = e8.increment_fancy(current, stride)
         self.assertEqual(len(col_set), target_len)
@@ -66,11 +66,42 @@ class E8Test(unittest.TestCase):
         stride = random.randint(0, 100000000000000000000000)
 
         # do the full tour
-        for i in range(0, target_len):
+        for _ in range(target_len):
             col_set.add(current)
             current = e8.increment_fancy(current, stride)
         self.assertEqual(len(col_set), target_len)
         self.assertEqual(current, "erd")
+
+    def test_split_fancy(self):
+        for flag in (False, True):
+            e8 = Erdi8(flag)
+            lsts = []
+            num_splits = random.randint(2, 10)
+            stride = random.randint(0, 100000000000000000000000)
+            length = random.randint(2, 4)
+            splits = e8.split_fancy_space(length, stride, num_splits)
+            _, _, space_size = e8.mod_space(length)
+            for i in range(num_splits):
+                lst = []
+                min = splits[i]
+                max = splits[i + 1] if i + 1 < num_splits else splits[0]
+                current = min
+                while current != max:
+                    lst.append(current)
+                    current = e8.increment_fancy(current, stride)
+                lsts.append(lst)
+            lengths = [len(lst) for lst in lsts]
+            total = sum(lengths)
+
+            # make sure there are no duplicates
+            st = set()
+            for lst in lsts:
+                for item in lst:
+                    st.add(item)
+            self.assertEqual(len(st), total)
+
+            # make sure we covered the whole space
+            self.assertEqual(total, space_size)
 
     def test_string_check(self):
         e8 = Erdi8()
@@ -95,7 +126,7 @@ class E8Test(unittest.TestCase):
         return stride
 
     def test_stride_compute(self):
-        for i in range(0, 10000):
+        for _ in range(10000):
             e8 = Erdi8(safe=True)
             n = e8.encode_int(random.randint(0, 100000000000000000000000))
             stride = self.safe_stride(
@@ -107,7 +138,7 @@ class E8Test(unittest.TestCase):
             self.assertEqual(stride, computed_stride["stride_effective"])
 
     def test_stride_compute_safe_false(self):
-        for i in range(0, 10000):
+        for _ in range(10000):
             e8 = Erdi8(safe=False)
             n = e8.encode_int(random.randint(0, 100000000000000000000000))
             stride = self.safe_stride(
