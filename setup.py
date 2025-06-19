@@ -21,7 +21,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='erdi8',
-    version='0.4.0',
+    version='0.5.0',
     url='https://github.com/athalhammer/erdi8',
     author='Andreas Thalhammer',
     author_email='andreas@thalhammer.bayern',
@@ -34,6 +34,7 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: OS Independent',
         'Topic :: Other/Nonlisted Topic',
