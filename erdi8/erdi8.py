@@ -174,6 +174,25 @@ class Erdi8:
             int_value = mini + (chunk_size * i * (mini + stride) % space)
             result.append(self.encode_int(int_value))
         return result
+    
+    def fancy_split_index(self, erdi8: str, stride: int, number_chunks: int) -> int:
+        """
+        This method computes the index of a given erdi8 value in a fancy split space.
+        It operates in a mod space. It returns the index of the erdi8 value in the
+        split space.
+
+        :param erdi8: erdi8 value to compute the index for
+        :param stride: a int denoting the stride
+        :param number_chunks: number of chunks to split the space into
+        :returns: index of the erdi8 value in the split space
+        """
+        if not self.check(erdi8):
+            return -1
+        mini, _, space = self.mod_space(len(erdi8))
+        while math.gcd(mini + stride, space) != 1:
+            stride = stride + 1
+        int_value = self.decode_int(erdi8)
+        return ((int_value % (mini + stride)) - mini) % number_chunks
 
     def encode_int(self, div: int) -> str:
         """
