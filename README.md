@@ -58,7 +58,7 @@ k7zydqrp64
 {'stride_effective': 30321718760517, 'stride_other_candidates': [30321718760516, 30321718760515, 30321718760514]}
 
 # split modspace into approximate equal-sized parts, for example to have erdi8 identifier generation scale horizontally.
->>> e8.split_fancy_space(len(start), stride, number_chunks = 6)
+>>> e8.split_fancy_space(10, 30321718760514, number_chunks = 6)
 ['b222222222', 'mtccmwqwzc', 'xmpq7sfsyp', 'jf22tp5pxz', 'v7cdfjvkxb', 'fzpr2fkgwn']
 ```
 
