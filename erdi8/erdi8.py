@@ -175,7 +175,7 @@ class Erdi8:
             result.append(self.encode_int(int_value))
         return result
 
-    def fancy_split_index(self, erdi8: str, stride: int, number_chunks: int) -> int:
+    def fancy_split_index(self, erdi8: str, stride: int, number_chunks: int) -> Optional[int]:
         """
         This method computes the index of a given erdi8 value in a fancy split space.
         It operates in a mod space. It returns the index of the erdi8 value in the
@@ -195,7 +195,7 @@ class Erdi8:
         chunk_size = space // number_chunks
         erdi8_int = self.decode_int(erdi8)
         index = ((erdi8_int - mini) * pow(mini + stride, -1, space)) % space
-        return index // chunk_size
+        return int(index // chunk_size)
 
     def encode_int(self, div: int) -> str:
         """
