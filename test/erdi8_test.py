@@ -103,6 +103,29 @@ class E8Test(unittest.TestCase):
             # make sure we covered the whole space
             self.assertEqual(total, space_size)
 
+    def test_split_index(self):
+        e8 = Erdi8()
+        num_splits = random.randint(2, 10)
+        stride = random.randint(0, 100000000000000000000000)
+        # the length should align with the random number of increments below to avoid border crossing
+        length = random.randint(3, 10)
+        print(f"num_splits: {num_splits}, stride: {stride}, length: {length}")
+        lsts = e8.split_fancy_space(length, stride, num_splits)
+        for i in range(len(lsts)):
+            # make sure the actual value is in the right split
+            self.assertEqual(e8.fancy_split_index(lsts[i], stride, num_splits), i)
+
+            # increment fancy random times
+            value = lsts[i]
+            print(f"Starting value: {value}")
+            # 2500 is chosen as with len 3 and num splits 10 -> 25*33*33 / 10 = 2722
+            for _ in range(random.randint(0, 2500)):
+                value = e8.increment_fancy(value, stride)
+                if value == (lsts[i + 1] if i + 1 < len(lsts) else lsts[0]):
+                    raise ValueError("Crossed borders")
+            print(value, i)
+            self.assertEqual(e8.fancy_split_index(value, stride, num_splits), i)
+
     def test_string_check(self):
         e8 = Erdi8()
         self.assertRaises(ValueError, e8.check, "23")

@@ -158,7 +158,7 @@ class Erdi8:
         """
         This method splits the fancy space into a number of chunks. It operates in a mod space.
         It returns a list of start values for each space. The end value of the space is the next start value.
-        For the last start value the end value is the first value.
+        For the last start value the end value is the first value. Potential overflows need to be handled by the caller.
 
         :param length: the length of the erdi8 identifier
         :param stride: a int denoting the stride
@@ -174,6 +174,28 @@ class Erdi8:
             int_value = mini + (chunk_size * i * (mini + stride) % space)
             result.append(self.encode_int(int_value))
         return result
+
+    def fancy_split_index(self, erdi8: str, stride: int, number_chunks: int) -> Optional[int]:
+        """
+        This method computes the index of a given erdi8 value in a fancy split space.
+        It operates in a mod space. It returns the index of the erdi8 value in the
+        split space. In a distributed environment this is used to determine the node to
+        which the erdi8 value belongs to.
+
+        :param erdi8: erdi8 value to compute the index for
+        :param stride: a int denoting the stride
+        :param number_chunks: number of chunks to split the space into
+        :returns: index of the erdi8 value in the split space
+        """
+        if not self.check(erdi8):
+            return None
+        mini, _, space = self.mod_space(len(erdi8))
+        while math.gcd(mini + stride, space) != 1:
+            stride = stride + 1
+        chunk_size = space // number_chunks
+        erdi8_int = self.decode_int(erdi8)
+        index = ((erdi8_int - mini) * pow(mini + stride, -1, space)) % space
+        return int(index // chunk_size)
 
     def encode_int(self, div: int) -> str:
         """
