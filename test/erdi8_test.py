@@ -106,7 +106,7 @@ class E8Test(unittest.TestCase):
     def test_split_index(self):
         e8 = Erdi8()
         num_splits = random.randint(2, 10)
-        stride = random.randint(0, 1000)
+        stride = random.randint(0, 100000000000000000000000)
         # the length should align with the random number of increments below to avoid border crossing
         length = random.randint(3, 10)
         print(f"num_splits: {num_splits}, stride: {stride}, length: {length}")
@@ -118,7 +118,8 @@ class E8Test(unittest.TestCase):
             # increment fancy random times
             value = lsts[i]
             print(f"Starting value: {value}")
-            for _ in range(random.randint(0, 1000)):
+            # 2500 is chosen as with len 3 and num splits 10 -> 25*33*33 / 10 = 2722
+            for _ in range(random.randint(0, 2500)):
                 value = e8.increment_fancy(value, stride)
                 if value == (lsts[i + 1] if i + 1 < len(lsts) else lsts[0]):
                     raise ValueError("Crossed borders")
